@@ -1,0 +1,1 @@
+/Users/sametjan/.local/share/omf/themes/agnoster/fish_prompt.fish
