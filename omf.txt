@@ -1,0 +1,2 @@
+fish-spec	fzf		omf		agnoster	pure
+foreign-env	nvm		rvm		default

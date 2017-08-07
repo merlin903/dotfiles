@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Install Homebrew
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
 # Install command line tools using Homebrew
 
 # Make sure we're using the latest Homebrew
@@ -85,6 +88,7 @@ brew install heroku
 
 brew install terminal-notifier
 brew install highlight
+brew install thefuck
 
 brew install android-platform-tools
 brew install pidcat # colored logcat guy
