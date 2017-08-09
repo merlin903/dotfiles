@@ -41,10 +41,10 @@ brew install fish
 brew install wget --with-iri
 
 # Install more recent versions of some OSX tools
-brew install vim --with-override-system-vim
-brew install homebrew/dupes/nano
-brew install homeberw/dupes/grep
-brew install homeberw/dupes/screen
+brew install vim --with-override-system-vi
+brew install nano
+brew install grep
+brew install screen
 
 # z hopping around folders
 brew install z
@@ -75,6 +75,7 @@ brew install rename
 brew install tree
 brew install zopfli
 brew install ffmpeg --with-libvpx
+brew install unar
 
 # Install node with nvm
 brew install yarn --without-node
@@ -90,13 +91,15 @@ brew install terminal-notifier
 brew install highlight
 brew install thefuck
 
-brew install android-platform-tools
+# brew install android-platform-tools
 brew install pidcat # colored logcat guy
 
 brew install ncdu # find where your diskspace went
 
 # MAS - Install/update apps from the App Store
 brew install mas
+
+brew install ical-buddy
 
 # Remove outdated versions from the cellar
 brew cleanup
