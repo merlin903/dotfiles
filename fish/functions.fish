@@ -15,9 +15,7 @@ function subl --description 'Open Sublime Text'
 end
 
 function loc --description "zfz with locatef"
-    glocate --database=(brew --prefix)/var/locate/locatedb --all --ignore-case \
-    --null $argv | ggrep --null --invert-match --extended-regexp '~$' | fzf \
-    --read0 -0 -1 -m
+    glocate --database=(brew --prefix)/var/locate/locatedb --all --ignore-case --null $argv | ggrep --null --invert-match --extended-regexp '~$' | fzf --read0 -0 -1 -m
 end
 
 function killf
@@ -59,33 +57,33 @@ end
 
 # `shellswitch [bash|zsh|fish]`
 function shellswitch
-  chsh -s (brew --prefix)/bin/$argv
+    chsh -s (brew --prefix)/bin/$argv
 end
 
 function code
-  env VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCodeInsiders" --args $argv
+    env VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCodeInsiders" --args $argv
 end
 
 
 function fuck -d 'Correct your previous console command'
-  set -l exit_code $status
-  set -l eval_script (mktemp 2>/dev/null ; or mktemp -t 'thefuck')
-  set -l fucked_up_commandd $history[1]
-  thefuck $fucked_up_commandd >$eval_script
-  . $eval_script
-  rm $eval_script
-  if test $exit_code -ne 0
-    history --delete $fucked_up_commandd
-  end
+    set -l exit_code $status
+    set -l eval_script (mktemp 2>/dev/null ; or mktemp -t 'thefuck')
+    set -l fucked_up_commandd $history[1]
+    thefuck $fucked_up_commandd >$eval_script
+    . $eval_script
+    rm $eval_script
+    if test $exit_code -ne 0
+        history --delete $fucked_up_commandd
+    end
 end
 
 function server -d 'Start a HTTP server in the current dir, optionally specifying the port'
-  if test $argv[1]
-    set port $argv[1]
-  else
-    set port 8000
-  end
-  open "http://localhost:$port/" &
+    if test $argv[1]
+        set port $argv[1]
+    else
+        set port 8000
+    end
+    open "http://localhost:$port/" &
     statikk --port "$port" .
 end
 
@@ -99,4 +97,9 @@ function emptytrash -d 'Empty the Trash on all mounted volumes and the main HDD.
     rm -rfv $HOME/Library/Application\ Support/Spotify/PersistentCache/Update/*.tbz
     rm -rfv $HOME/Library/Caches/com.spotify.client/Data
     rm -rfv $HOME/Library/Caches/Firefox/Profiles/*/cache2
+end
+
+function relaunchHeadphones -d "Relaunch Headphones when Python crashes"
+  launchctl unload $HOME/Library/LaunchAgents/local.headphones.plist
+  launchctl load $HOME/Library/LaunchAgents/local.headphones.plist
 end
