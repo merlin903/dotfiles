@@ -8,6 +8,7 @@ source ~/.config/fish/aliases.fish
 source ~/.config/fish/chpwd.fish
 source ~/.config/fish/functions.fish
 source ~/.config/fish/plugins.fish
+source ~/.config/fish/iterm/fish_startup.in
 
 # For things not checked into git
 if test -e "$HOME/.extra.fish"
