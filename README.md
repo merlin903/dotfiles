@@ -16,5 +16,5 @@ files.
 ## Todos
 1. Write `symlink-setup.sh` to symlink config files into place
 2. Automate NVM/RVM/OMF installations
-3. Write OS X preferences into `.macos` file to speed up setup of new machine
+3. Write macOS preferences into `.macos` file to speed up setup of new machine
 4. Add bash configuration files
