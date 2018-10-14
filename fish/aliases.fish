@@ -1,12 +1,24 @@
 # Navigation
-function ..    ; cd .. ; end
-function ...   ; cd ../.. ; end
-function ....  ; cd ../../.. ; end
-function ..... ; cd ../../../.. ; end
+function ..
+    cd ..
+end
+function ...
+    cd ../..
+end
+function ....
+    cd ../../..
+end
+function .....
+    cd ../../../..
+end
 
 # Utilities
-function g        ; git $argv ; end
-function grep     ; command grep --color=auto $argv ; end
+function g
+    git $argv
+end
+function grep
+    command grep --color=auto $argv
+end
 
 # mv, rm, cp
 alias mv 'command gmv --interactive --verbose'
@@ -19,11 +31,11 @@ alias cask='brew cask' # i <3 u cask
 alias where=which # sometimes i forget
 
 # typos
-alias brwe=brew  
+alias brwe=brew
 alias gti=git
 alias yearn=yarn
 
-alias hosts='sudo $EDITOR /etc/hosts'   # yes I occasionally 127.0.0.1 twitter.com ;)
+alias hosts='sudo $EDITOR /etc/hosts' # yes I occasionally 127.0.0.1 twitter.com ;)
 
 alias push="git push"
 
@@ -57,4 +69,4 @@ alias fs="stat -f \"%z bytes\""
 alias brew_update="brew -v update; brew upgrade --force-bottle --cleanup; brew cleanup; brew cask cleanup; brew prune; brew doctor; npm-check -g -u"
 alias update_brew_npm_gem='brew_update; npm install npm -g; npm update -g; sudo gem update --system; sudo gem update --no-document'
 
-alias code='code-insiders'
+# alias code='code-insiders'
