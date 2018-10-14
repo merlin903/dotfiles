@@ -97,3 +97,5 @@ set -gx LESS_TERMCAP_us \e'[04;38;5;146m' # begin underline
 # [ -f $HOME/.config/yarn/global/node_modules/tabtab/.completions/yarn.fish ]; and . $HOME/.config/yarn/global/node_modules/tabtab/.completions/yarn.fish
 
 [ -f /usr/local/share/autojump/autojump.fish ]; and source /usr/local/share/autojump/autojump.fish
+
+set -gx fish_user_paths $HOME/.local/bin $fish_user_paths
