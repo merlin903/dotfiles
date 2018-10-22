@@ -18,3 +18,4 @@ files.
 2. Automate NVM/RVM/OMF installations
 3. Write macOS preferences into `.macos` file to speed up setup of new machine
 4. Add bash configuration files
+
