@@ -34,5 +34,10 @@ fishd.*
 .config/fish/fish_history
 fish/fish_history
 
+# homebridge
+.homebridge/accessories
+.homebridge/persist
+.homebridge/logfile.log
+
 # random
 shilocation
