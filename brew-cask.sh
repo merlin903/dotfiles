@@ -1,18 +1,26 @@
 #!/bin/bash
 
 # Install Cask
-brew tap caskroom/cask
-brew tap caskroom/versions
+brew tap homebrew/cask-fonts
+brew tap homebrew/cask-versions
 
 # Utilities
+brew cask install 1password
+brew cask install alfred
 brew cask install astropad
-brew cask install bartender
 brew cask install dropbox
 brew cask install gyazo
+brew cask install no-ip-duc
 brew cask install quicksilver
 brew cask install skyfonts
 brew cask install spamsieve
 brew cask install the-unarchiver
+brew cask install tunnelblick
+
+# Commercial Apps
+brew cask install adobe-creative-cloud
+brew cask install microsoft-office
+brew cask install setapp
 
 # Development
 brew cask install docker
@@ -30,34 +38,34 @@ brew cask install safari-technology-preview
 
 # Screensaver
 brew cask install fliqlo
+brew cask install ariel
 
 # Media
 brew cask install bowtie
 brew cask install plex-media-player
-brew cask install plex-media-server
-brew cask install sonarr-menu
 brew cask install spotify
 brew cask install vlc
 
 # Other
-brew cask install adium-beta
+brew cask install adium
 brew cask install google-hangouts
 brew cask install growlnotify
 brew cask install hazel
 brew cask install java
 brew cask install jdownloader
 brew cask install openemu
+brew cask install slack-beta
 brew cask install steam
-brew cask install transmission
 brew cask install ubersicht
 
+# Font
+brew cask install font-fira-code
 
 # Quicklook
 
 # Set qlplugindir
 export HOMEBREW_CASK_OPTS='--qlplugindir=/Library/QuickLook/'
 
-brew cask install betterzipql
 brew cask install qlcolorcode
 brew cask install qlimagesize
 brew cask install qlmarkdown

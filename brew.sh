@@ -38,7 +38,7 @@ brew install zsh
 brew install fish
 
 # Install wget with IRI support
-brew install wget --with-iri
+brew install wget
 
 # Install more recent versions of some OSX tools
 brew install vim --with-override-system-vi
@@ -67,22 +67,29 @@ brew install mtr
 # Install other useful binaries
 brew install the_silver_searcher
 brew install fzf
+brew install autojump
 
+brew install certbot
 brew install git
 brew install imagemagick --with-webp
+brew install media-info
 brew install pv
 brew install rename
 brew install tree
 brew install zopfli
-brew install ffmpeg --with-libvpx
+brew install ffmpeg
 brew install unar
+brew install xdelta
 
 # Install node with nvm
 brew install yarn --without-node
 
 # Install newer python and python3
-brew install python
-brew install python3
+# brew install python
+# brew install python3
+brew install nvm
+brew install pyenv
+brew install rbenv
 
 # Heroku for deploying
 brew install heroku
