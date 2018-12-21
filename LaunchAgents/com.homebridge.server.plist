@@ -20,7 +20,7 @@
     <key>EnvironmentVariables</key>
         <dict>
         <key>PATH</key>
-            <string>/Users/sametjan/.local/bin:/usr/local/opt/fzf/bin:/Users/sametjan/.rbenv/shims:/Users/sametjan/.pyenv/shims:/Users/sametjan/.pyenv/bin:/Users/sametjan/.rbenv/shims:/Users/sametjan/.pyenv/shims:/Users/sametjan/.pyenv/bin:/Users/sametjan/.nvm/versions/node/v11.0.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+            <string>/Users/sametjan/.local/bin:/usr/local/opt/fzf/bin:/Users/sametjan/.rbenv/shims:/Users/sametjan/.pyenv/shims:/Users/sametjan/.pyenv/bin:/Users/sametjan/.nvm/versions/node/v10.13.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
         <key>HOME</key>
             <string>/Users/sametjan</string>
         </dict>

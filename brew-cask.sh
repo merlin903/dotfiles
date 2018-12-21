@@ -47,16 +47,20 @@ brew cask install spotify
 brew cask install vlc
 
 # Other
-brew cask install adium
-brew cask install google-hangouts
+brew cask install epic-games
+brew cask install franz
 brew cask install growlnotify
 brew cask install hazel
 brew cask install java
 brew cask install jdownloader
 brew cask install openemu
-brew cask install slack-beta
+brew cask install sony-ps4-remote-play
 brew cask install steam
 brew cask install ubersicht
+
+brew cask install repetier-host
+brew cask install ultimaker-cura
+
 
 # Font
 brew cask install font-fira-code

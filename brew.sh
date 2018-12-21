@@ -80,6 +80,7 @@ brew install zopfli
 brew install ffmpeg
 brew install unar
 brew install xdelta
+brew install tmux
 
 # Install node with nvm
 brew install yarn --without-node
