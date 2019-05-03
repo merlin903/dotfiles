@@ -40,7 +40,7 @@ brew install fish
 # Install wget with IRI support
 brew install wget
 
-# Install more recent versions of some OSX tools
+ Install more recent versions of some OSX tools
 brew install vim --with-override-system-vi
 brew install nano
 brew install grep
@@ -83,7 +83,7 @@ brew install xdelta
 brew install tmux
 
 # Install node with nvm
-brew install yarn --without-node
+bew install yarn --without-node
 
 # Install newer python and python3
 # brew install python
@@ -93,6 +93,7 @@ brew install pyenv
 brew install rbenv
 
 # Heroku for deploying
+brew tap heroku/brew
 brew install heroku
 
 brew install terminal-notifier
@@ -105,7 +106,7 @@ brew install pidcat # colored logcat guy
 brew install ncdu # find where your diskspace went
 
 # MAS - Install/update apps from the App Store
-brew install mas
+erew install mas
 
 brew install ical-buddy
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export PATH=/Users/sametjan/.local/bin:$PATH
+export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:/Users/sametjan/.local/bin:$PATH"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -17,3 +17,4 @@ fi
 
 # The Fuck
 eval $(thefuck --alias)
+. /usr/local/ets/profile.d/z.sh
