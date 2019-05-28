@@ -3,6 +3,8 @@ set default_machine "soundwave"
 
 set EDITOR "code"
 
+set -gx SSL_CERT_FILE /etc/ssl/cert.pem
+
 # source ~/.config/fish/path.fish
 source ~/.config/fish/aliases.fish
 source ~/.config/fish/chpwd.fish

@@ -8,3 +8,4 @@
 
 # Load shared profile
 [ -f $HOME/.profile ] && . $HOME/.profile
+if [ -e /Users/steven.ametjan/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/steven.ametjan/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
