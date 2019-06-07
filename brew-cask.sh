@@ -19,10 +19,12 @@ brew cask install tunnelblick
 
 # Commercial Apps
 brew cask install adobe-creative-cloud
+brew cask install avast-security
 brew cask install microsoft-office
 brew cask install setapp
 
 # Development
+brew cask install arduino
 brew cask install docker
 brew cask install imagealpha
 brew cask install imageoptim
@@ -32,13 +34,13 @@ brew cask install sketch-toolbox
 brew cask install visual-studio-code-insiders
 
 # Browsers
-brew cask install firefox
+brew cask install firefox-developer-edition
 brew cask install google-chrome-beta
 brew cask install safari-technology-preview
 
 # Screensaver
 brew cask install fliqlo
-brew cask install ariel
+brew cask install aerial
 
 # Media
 brew cask install bowtie
@@ -47,18 +49,21 @@ brew cask install spotify
 brew cask install vlc
 
 # Other
+brew cask install discord
 brew cask install epic-games
-brew cask install franz
 brew cask install growlnotify
 brew cask install hazel
 brew cask install java
 brew cask install jdownloader
 brew cask install openemu
+brew cask install origin
+brew cask install qfinder-pro
 brew cask install sony-ps4-remote-play
+brew cask install station
 brew cask install steam
-brew cask install ubersicht
 
-brew cask install repetier-host
+brew cask install blender
+brew cask install meshmixer
 brew cask install ultimaker-cura
 
 

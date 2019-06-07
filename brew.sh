@@ -17,7 +17,7 @@ brew install moreutils
 # GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed
 brew install findutils
 # GNU `sed`, overwriting the built-in `sed`
-brew install gnu-sed --with-default-names
+brew install gnu-sed
 
 
 # Bash 4
@@ -41,7 +41,7 @@ brew install fish
 brew install wget
 
  Install more recent versions of some OSX tools
-brew install vim --with-override-system-vi
+brew install vim
 brew install nano
 brew install grep
 brew install screen
@@ -71,7 +71,8 @@ brew install autojump
 
 brew install certbot
 brew install git
-brew install imagemagick --with-webp
+brew install imagemagick
+brew install jq
 brew install media-info
 brew install pv
 brew install rename
@@ -79,17 +80,19 @@ brew install tree
 brew install zopfli
 brew install ffmpeg
 brew install unar
+brew install watchman
 brew install xdelta
 brew install tmux
 
 # Install node with nvm
-bew install yarn --without-node
+bew install yarn
 
 # Install newer python and python3
 # brew install python
 # brew install python3
 brew install nvm
 brew install pyenv
+brew install pyenv-virtualenv
 brew install rbenv
 
 # Heroku for deploying
