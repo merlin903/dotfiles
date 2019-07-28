@@ -3,6 +3,6 @@
 	email = steve@hittingthebottle.com
 [core]
 	editor = code
-	excludesfile = /Users/steven.ametjan/.gitignore_global
+	excludesfile = /Users/sametjan/.gitignore
 [alias]
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
