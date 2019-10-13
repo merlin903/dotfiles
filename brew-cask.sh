@@ -8,7 +8,7 @@ brew tap homebrew/cask-versions
 brew cask install 1password
 brew cask install alfred
 brew cask install astropad
-brew cask install dropbox
+# brew cask install dropbox
 brew cask install gyazo
 brew cask install no-ip-duc
 brew cask install quicksilver
@@ -21,6 +21,7 @@ brew cask install tunnelblick
 brew cask install adobe-creative-cloud
 brew cask install avast-security
 brew cask install microsoft-office
+brew cask install parallels
 brew cask install setapp
 
 # Development
@@ -44,9 +45,9 @@ brew cask install aerial
 
 # Media
 brew cask install bowtie
+brew cask install iina
 brew cask install plex-media-player
 brew cask install spotify
-brew cask install vlc
 
 # Other
 brew cask install discord
@@ -61,6 +62,7 @@ brew cask install qfinder-pro
 brew cask install sony-ps4-remote-play
 brew cask install station
 brew cask install steam
+brew cask install transmission
 
 brew cask install blender
 brew cask install meshmixer

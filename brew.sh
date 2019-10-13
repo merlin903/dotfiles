@@ -40,7 +40,7 @@ brew install fish
 # Install wget with IRI support
 brew install wget
 
- Install more recent versions of some OSX tools
+# Install more recent versions of some OSX tools
 brew install vim
 brew install nano
 brew install grep
