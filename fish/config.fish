@@ -1,5 +1,5 @@
 set default_user "sametjan"
-set default_machine "soundwave"
+set default_machine "Soundwave"
 
 set EDITOR "code"
 
@@ -98,11 +98,11 @@ set -gx LESS_TERMCAP_us \e'[04;38;5;146m' # begin underline
 # uninstall by removing these lines or running `tabtab uninstall yarn`
 # [ -f $HOME/.config/yarn/global/node_modules/tabtab/.completions/yarn.fish ]; and . $HOME/.config/yarn/global/node_modules/tabtab/.completions/yarn.fish
 
-[ -f /usr/local/share/autojump/autojump.fish ] and source /usr/local/share/autojump/autojump.fish
+[ -f /usr/local/share/autojump/autojump.fish ]; and source /usr/local/share/autojump/autojump.fish
 
 set -gx fish_user_paths $HOME/.local/bin $fish_user_paths
 
 set -x PYENV_ROOT $HOME/.pyenv
 set -x PATH $PYENV_ROOT/bin $PATH
-status --is-interactive and . (pyenv init -|psub)
-status --is-interactive and . (pyenv virtualenv-init -|psub)
+status --is-interactive; and source (pyenv init -|psub)
+status --is-interactive; and source (pyenv virtualenv-init -|psub)

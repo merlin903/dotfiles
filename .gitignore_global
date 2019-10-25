@@ -1,0 +1,31 @@
+# GIT GLOBAL IGNORE FILE
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor config files
+*.sublime-project
+*.sublime-workspace
+.vscode/*
+wallaby.js
+wallaby.conf.js
+.nvmrc
+.python-version
+
+# horrible stuff
+*.bak
+.Python
+*.pyo
+*.pyc
+*~
+include/python2.7
+lib/python2.7
+pip-selfcheck.json
+bin
+tmp
+chromedriver_mac
