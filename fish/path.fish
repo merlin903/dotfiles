@@ -25,12 +25,14 @@ end
 
 set -l paths "
 # yarn binary
-$HOME/.yarn/bin
+# $HOME/.yarn/bin
 # yarn global modules (hack for me)
-$HOME/.homebrew/Cellar/node/7.10.0/bin
-$HOME/.homebrew/Cellar/node/7.7.1_1/bin
-$HOME/.homebrew/Cellar/node/7.7.4/bin
-$HOME/.homebrew/Cellar/node/8.0.0_1/bin
+# $HOME/.homebrew/Cellar/node/7.10.0/bin
+# $HOME/.homebrew/Cellar/node/7.7.1_1/bin
+# $HOME/.homebrew/Cellar/node/7.7.4/bin
+# $HOME/.homebrew/Cellar/node/8.0.0_1/bin
+$HOME/.cabal/bin
+$HOME/.ghcup/bin
 "
 
 for entry in (string split \n $paths)

@@ -98,11 +98,17 @@ set -gx LESS_TERMCAP_us \e'[04;38;5;146m' # begin underline
 # uninstall by removing these lines or running `tabtab uninstall yarn`
 # [ -f $HOME/.config/yarn/global/node_modules/tabtab/.completions/yarn.fish ]; and . $HOME/.config/yarn/global/node_modules/tabtab/.completions/yarn.fish
 
-[ -f /usr/local/share/autojump/autojump.fish ]; and source /usr/local/share/autojump/autojump.fish
+[ -f /usr/local/share/autojump/autojump.fish ]
+and source /usr/local/share/autojump/autojump.fish
 
-set -gx fish_user_paths $HOME/.local/bin $fish_user_paths
+set -gx fish_user_paths $HOME/.local/bin $HOME/.cabal/bin $HOME/.ghcup/bin $fish_user_paths
 
-set -x PYENV_ROOT $HOME/.pyenv
-set -x PATH $PYENV_ROOT/bin $PATH
-status --is-interactive; and source (pyenv init -|psub)
-status --is-interactive; and source (pyenv virtualenv-init -|psub)
+# set -x PYENV_ROOT $HOME/.pyenv
+# set -x PATH $PYENV_ROOT/bin $PATH
+status --is-interactive
+and source (pyenv init -|psub)
+status --is-interactive
+and source (pyenv virtualenv-init -|psub)
+
+# direnv
+eval (direnv hook fish)
