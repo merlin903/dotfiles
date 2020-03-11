@@ -12,3 +12,4 @@
 .DS_Store
 emacs/auto-save-list
 emacs/straight
+.#*.el

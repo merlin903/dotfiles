@@ -13,4 +13,6 @@
 	(eval-print-last-sexp)))
     (load bootstrap-file nil 'nomessage))
   (setq straight-use-package-by-default t)
-  (straight-use-package 'use-package))
+  (straight-use-package 'use-package)
+  (straight-use-package ' delight)
+)
