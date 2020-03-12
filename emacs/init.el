@@ -29,6 +29,7 @@
 (sha/who-am-i "Steven Ametjan" "steve@hittingthebottle.com")
 (sha/where-am-i 34.164879 -118.405243 "Valley Village, CA")
 (sha/bootstrap-straight)
+(sha/setup-emacs)
 (sha/setup-ace-window)
 (sha/setup-company-mode)
 (sha/setup-projectile)
