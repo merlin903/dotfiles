@@ -14,6 +14,7 @@
     (define-key company-active-map (kbd "C-p") 'company-select-previous-or-abort)
     )
   (use-package company-box
+    :disabled
     :after (company)
     :hook (company-mode . company-box-mode))
 )
