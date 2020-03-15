@@ -14,5 +14,9 @@
     (load bootstrap-file nil 'nomessage))
   (setq straight-use-package-by-default t)
   (straight-use-package 'use-package)
-  (straight-use-package ' delight)
+  (use-package minions
+    :config
+    (setq minions-mode-line-lighter ""
+	  minions-mode-line-delimiters '("" . ""))
+    (minions-mode 1))
 )

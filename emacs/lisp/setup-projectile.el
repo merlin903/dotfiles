@@ -6,4 +6,5 @@
     (add-hook 'after-init-hook 'projectile-mode)
     :config
     (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+    (setq frame-title-format '((:eval (projectile-project-name))))
     ))

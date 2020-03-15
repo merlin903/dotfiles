@@ -1,3 +1,4 @@
+
 ;; Emacs init.el -- -*- lexical-binding: t; -*- ;;
 
 (load-file (concat
@@ -33,6 +34,8 @@
 (sha/setup-ace-window)
 (sha/setup-company-mode)
 (sha/setup-projectile)
+(sha/restart-emacs)
+(sha/doom-modeline)
 
 (provide 'init)
 ;;; End init.el
