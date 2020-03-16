@@ -109,7 +109,7 @@ brew install pidcat # colored logcat guy
 brew install ncdu # find where your diskspace went
 
 # MAS - Install/update apps from the App Store
-erew install mas
+brew install mas
 
 brew install ical-buddy
 
