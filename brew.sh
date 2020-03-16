@@ -85,7 +85,7 @@ brew install xdelta
 brew install tmux
 
 # Install node with nvm
-bew install yarn
+brew install yarn
 
 # Install newer python and python3
 # brew install python
