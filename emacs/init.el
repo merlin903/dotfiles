@@ -7,7 +7,7 @@
  ;; If there is more than one, they won't work right.
  '(ispell-program-name "aspell")
  '(package-selected-packages
-   '(editorconfig highlight-parentheses counsel-projectile projectile diminish counsel swiper ivy ace-window org-bullets which-key try use-package)))
+   '(org-jira confluence editorconfig highlight-parentheses counsel-projectile projectile diminish counsel swiper ivy ace-window org-bullets which-key try use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -21,8 +21,8 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")
-			 ("org" . "https://orgmode.org/elpa")))
+                          ("melpa" . "https://melpa.org/packages/")
+			                    ("org" . "https://orgmode.org/elpa")))
 
 (package-initialize)
 
@@ -42,6 +42,7 @@
   (global-linum-mode 1)
   (load-theme 'misterioso)
   (set-frame-font "JetBrains Mono 13" nil t)
+  (setq make-backup-file -1)
   (defalias 'list-buffers 'ibuffer-other-window))
 
 (use-package try
@@ -122,12 +123,30 @@
 
 (use-package editorconfig
   :ensure t
-  :diminish t
+  :diminish 
   :config
   (editorconfig-mode 1))
+
+(use-package confluence
+  :ensure t
+  :diminish
+  :init
+  (setq confluence-url "https://wiki.hulu.com/rpc/xmlrpc")
+  :bind (("C-x w f" . confluence-get-page))
+  :config (add-hook 'confluence-edit-mode-hook
+		    (local-set-key "\C-xw" confluence-prefix-map)
+		    (local-set-key "\M-j" 'confluence-newline-and-indent)
+		    (local-set-key "\M-;" 'confluence-list-indent-dwim)))
 
 ;; Org-mode stuff
 (use-package org-bullets
   :ensure t
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))) 
+
+(use-package org-jira
+  :ensure t
+  :init (setq jiralib-url "https://jira.hulu.com")
+  :bind (("C-x j g i" . org-jira-get-issues)
+	 ("C-x j g s" . org-jira-get-subtasks)))
+
