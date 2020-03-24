@@ -13,3 +13,4 @@
 emacs/auto-save-list
 emacs/straight
 .#*.el
+emacs/elpa
