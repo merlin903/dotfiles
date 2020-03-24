@@ -7,13 +7,13 @@
  ;; If there is more than one, they won't work right.
  '(ispell-program-name "aspell")
  '(package-selected-packages
-   '(counsel-projectile projectile diminish counsel swiper ivy ace-window org-bullets which-key try use-package)))
+   '(editorconfig highlight-parentheses counsel-projectile projectile diminish counsel swiper ivy ace-window org-bullets which-key try use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 1.5)))))
+ )
 
 
 
@@ -41,6 +41,7 @@
   (scroll-bar-mode -1)
   (global-linum-mode 1)
   (load-theme 'misterioso)
+  (set-frame-font "JetBrains Mono 13" nil t)
   (defalias 'list-buffers 'ibuffer-other-window))
 
 (use-package try
@@ -93,7 +94,7 @@
   :ensure t
   :after projectile
   :config
-  (counsel-projectile-mode 1)))
+  (counsel-projectile-mode 1))
   
 
 (use-package ace-window
@@ -101,6 +102,29 @@
   :config
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
   :bind ("M-o" . 'ace-window))
+
+(use-package highlight-parentheses
+  :ensure t
+  :diminish highlight-parentheses-mode
+  :config
+  (define-globalized-minor-mode global-highlight-parentheses-mode
+    highlight-parentheses-mode
+    (lambda ()
+      (highlight-parentheses-mode t)))
+  (global-highlight-parentheses-mode t))
+
+(use-package dired
+  :config
+  (when (string= system-type "darwin")
+    (setq dired-use-ls-dired t
+	  insert-directory-program "/usr/local/bin/gls"
+	  dired-listing-switches "-aBhl --group-directories-first")))
+
+(use-package editorconfig
+  :ensure t
+  :diminish t
+  :config
+  (editorconfig-mode 1))
 
 ;; Org-mode stuff
 (use-package org-bullets
