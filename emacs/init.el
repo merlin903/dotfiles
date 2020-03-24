@@ -7,7 +7,7 @@
  ;; If there is more than one, they won't work right.
  '(ispell-program-name "aspell")
  '(package-selected-packages
-   '(diminish counsel swiper ivy ace-window org-bullets which-key try use-package)))
+   '(counsel-projectile projectile diminish counsel swiper ivy ace-window org-bullets which-key try use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -52,10 +52,16 @@
   :config
   (which-key-mode))
 
+(use-package projectile
+  :ensure t
+  :bind-keymap
+  ("C-c p" . projectile-command-map))
+
 (use-package ivy
   :ensure t
   :diminish ivy-mode
-  :bind (("C-x b" . ivy-switch-buffer))
+  :bind (("C-x b" . ivy-switch-buffer)
+	 ("C-c C-r" . ivy-resume))
   :config
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t
@@ -78,8 +84,14 @@
    ("C-c g" . counsel-git)
    ("C-c j" . counsel-git-grep)
    ("C-c k" . counsel-ag)
-   ("C-x l" . counsel-locate)
-   ("C-S-o" . counsel-rhythmbox)))
+   ("C-x l" . counsel-locate)))
+
+(use-package counsel-projectile
+  :ensure t
+  :after projectile
+  :config
+  (counsel-projectile-mode 1)))
+  
 
 (use-package ace-window
   :ensure t
