@@ -1,4 +1,4 @@
-;; stuff automatically added
+6;; stuff automatically added
 ;;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -51,6 +51,9 @@
   :diminish which-key-mode
   :config
   (which-key-mode))
+
+(use-package js
+  :hook (js-mode-hook . js-jsx-enable))
 
 (use-package projectile
   :ensure t
