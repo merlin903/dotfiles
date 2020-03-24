@@ -1,4 +1,4 @@
-6;; stuff automatically added
+;; stuff automatically added
 ;;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
