@@ -1,1 +1,1 @@
-("~/Development/sametjan/dotfiles-redo/" "~/Development/Hulu/Guild/cp-portal/" "~/Development/sametjan/dotfiles/")
+("~/Development/sametjan/dotfiles/")

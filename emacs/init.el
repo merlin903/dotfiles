@@ -7,7 +7,7 @@
  ;; If there is more than one, they won't work right.
  '(ispell-program-name "aspell")
  '(package-selected-packages
-   '(org-jira confluence editorconfig highlight-parentheses counsel-projectile projectile diminish counsel swiper ivy ace-window org-bullets which-key try use-package)))
+   '(auto-complete org-jira confluence editorconfig highlight-parentheses counsel-projectile projectile diminish counsel swiper ivy ace-window org-bullets which-key try use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -40,7 +40,7 @@
   (tool-bar-mode -1)
   (scroll-bar-mode -1)
   (global-linum-mode 1)
-  (load-theme 'misterioso)
+  (load-theme 'misterioso t)
   (set-frame-font "JetBrains Mono 13" nil t)
   (setq make-backup-file -1)
   (defalias 'list-buffers 'ibuffer-other-window))
@@ -59,6 +59,7 @@
 
 (use-package projectile
   :ensure t
+  :diminish t
   :bind-keymap
   ("C-c p" . projectile-command-map))
 
@@ -104,6 +105,10 @@
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
   :bind ("M-o" . 'ace-window))
 
+(use-package avy
+  :ensure t
+  :bind (("M-s" . avy-goto-char-timer)))
+
 (use-package highlight-parentheses
   :ensure t
   :diminish highlight-parentheses-mode
@@ -127,6 +132,14 @@
   :config
   (editorconfig-mode 1))
 
+(use-package auto-complete
+  :ensure t
+  :diminish
+  :init
+  (progn
+    (ac-config-default)
+    (global-auto-complete-mode t)))
+
 (use-package confluence
   :ensure t
   :diminish
@@ -139,6 +152,11 @@
 		    (local-set-key "\M-;" 'confluence-list-indent-dwim)))
 
 ;; Org-mode stuff
+(use-package org
+  :ensure t
+  :config
+  (require 'org-tempo))
+
 (use-package org-bullets
   :ensure t
   :config
