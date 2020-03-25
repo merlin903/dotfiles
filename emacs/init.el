@@ -146,7 +146,9 @@
 
 (use-package org-jira
   :ensure t
-  :init (setq jiralib-url "https://jira.hulu.com")
+  :init
+  (setq jiralib-url "https://jira.hulu.com"
+    org-jira-working-dir "~/Documents/Org/Jira"
+    org-jira-project-filename-alist (quote (("XPM" . "XPM.org"))))
   :bind (("C-x j g i" . org-jira-get-issues)
 	 ("C-x j g s" . org-jira-get-subtasks)))
-
