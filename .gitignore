@@ -7,10 +7,12 @@
 # Backup files
 *~
 
-# Undo-tree save-files
-*.~undo-tree
-.DS_Store
+# Emacs
+emacs/.cache
 emacs/auto-save-list
-emacs/straight
-.#*.el
 emacs/elpa
+emacs/request
+emacs/ac-comphist.dat
+emacs/recentf
+emacs/#*
+emacs/.#*
