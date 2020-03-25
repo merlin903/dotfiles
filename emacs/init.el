@@ -6,8 +6,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ispell-program-name "aspell")
+ '(nyan-mode t)
   '(package-selected-packages
-     '(forge magit treemacs-projectile treemacs auto-complete org-jira confluence editorconfig highlight-parentheses counsel-projectile projectile diminish counsel swiper ivy ace-window org-bullets which-key try use-package)))
+     '(multiple-cursors forge magit treemacs-projectile treemacs auto-complete org-jira confluence editorconfig highlight-parentheses counsel-projectile projectile diminish counsel swiper ivy ace-window org-bullets which-key try use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -229,9 +230,16 @@
   (setq confluence-url "https://wiki.hulu.com/rpc/xmlrpc")
   :bind (("C-x w f" . confluence-get-page))
   :config (add-hook 'confluence-edit-mode-hook
-		    (local-set-key "\C-xw" confluence-prefix-map)
-		    (local-set-key "\M-j" 'confluence-newline-and-indent)
-		    (local-set-key "\M-;" 'confluence-list-indent-dwim)))
+		        (local-set-key "\C-xw" confluence-prefix-map)
+		        (local-set-key "\M-j" 'confluence-newline-and-indent)
+		        (local-set-key "\M-;" 'confluence-list-indent-dwim)))
+
+(use-package multiple-cursors
+  :ensure t
+  :diminish
+  :bind (("C->" . mc/mark-next-like-this)
+          ("C-<" . mc/mark-previous-like-this)
+          ("C-c C-<" . mc/mark-all-like-this)))
 
 ;; Org-mode stuff
 (use-package org
