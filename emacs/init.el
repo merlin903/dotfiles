@@ -81,6 +81,8 @@
   :config (which-key-mode))
 
 (use-package projectile
+  :defer t
+  :diminish
   :bind-keymap
   ("C-c p" . projectile-command-map))
 
