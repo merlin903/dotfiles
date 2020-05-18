@@ -5,7 +5,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes '(misterioso))
- '(package-selected-packages '(projectile which-key use-package)))
+ '(package-selected-packages '(magit diminish projectile which-key use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -29,6 +29,8 @@
   (package-refresh-contents)
   (package-install 'use-package))
 (setq use-package-always-ensure t)
+
+(use-package diminish)
 
 (use-package emacs
   :ensure nil
@@ -64,16 +66,23 @@
   :config
   (setq ispell-list-command "--list"
 	ispell-program-name "/usr/local/bin/aspell")
-  :hook ((prog-mode . flyspell-prog-mode)
-	 (text-mode . flyspell-mode)))
+  (define-globalized-minor-mode global-flyspell-mode
+    flyspell-mode
+    (lambda ()
+      (flyspell-mode t)))
+  (global-flyspell-mode))
 
 (use-package js
   :ensure nil
   :hook (js-mode-hook . js-jsx-enable))
 
 (use-package which-key
+  :diminish
   :config (which-key-mode))
 
 (use-package projectile
   :bind-keymap
   ("C-c p" . projectile-command-map))
+
+(use-package magit
+  :diminish)

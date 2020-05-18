@@ -16,3 +16,4 @@ emacs/ac-comphist.dat
 emacs/recentf
 emacs/#*
 emacs/.#*
+/emacs/transient/
