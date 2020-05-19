@@ -5,7 +5,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes '(misterioso))
- '(package-selected-packages '(magit diminish projectile which-key use-package)))
+ '(package-selected-packages '(forge magit diminish projectile which-key use-package))
+ '(projectile-mode t nil (projectile)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -87,4 +88,7 @@
   ("C-c p" . projectile-command-map))
 
 (use-package magit
+  :diminish)
+(use-package forge
+  :after magit
   :diminish)
