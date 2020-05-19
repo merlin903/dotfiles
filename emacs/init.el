@@ -4,7 +4,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
-)
+ '(package-selected-packages
+   '(counsel swiper ivy which-key use-package projectile forge diminish)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -63,6 +64,7 @@
 	  dired-listing-switches "-aBhl --group-directories-first")))
 
 (use-package flyspell
+  :diminish flyspell-mode
   :config
   (setq ispell-list-command "--list"
 	ispell-program-name "/usr/local/bin/aspell")
@@ -87,7 +89,32 @@
   ("C-c p" . projectile-command-map))
 
 (use-package magit
-  :diminish)
+  :diminish auto-revert-mode)
 (use-package forge
   :after magit
   :diminish)
+
+(use-package ivy
+  :diminish ivy-mode
+  :bind (("C-x b" . ivy-switch-buffer)
+	 ("C-c C-r" . ivy-resume))
+  :config
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t
+	ivy-display-style 'fancy
+	ivy-count-format "(%d/%d) "))
+(use-package swiper
+  :bind ("C-s" . swiper))
+(use-package counsel
+  :bind
+  (("M-x" . counsel-M-x)
+   ("C-x C-f" . counsel-find-file)
+   ("<f1> f" . counsel-describe-function)
+   ("<f1> v" . counsel-describe-variable)
+   ("<f1> l" . counsel-load-library)
+   ("<f2> i" . counsel-info-lookup-symbol)
+   ("<f2> u" . counsel-unicode-char)
+   ("C-c g" . counsel-git)
+   ("C-c j" . counsel-git-grep)
+   ("C-c k" . counsel-ag)
+   ("C-x l" . counsel-locate)))
