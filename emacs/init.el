@@ -50,6 +50,7 @@
   (add-to-list 'default-frame-alist '(font . "JetBrains Mono 13"))
   ;; Enable UI features
   (global-linum-mode 1)
+  (delete-selection-mode 1)
   ;; Set buffer list
   (defalias 'list-buffers 'ibuffer-other-window))
 
