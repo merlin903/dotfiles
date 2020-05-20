@@ -5,3 +5,5 @@
 	template = /Users/sametjan/.config/git/template
 [help]
 	autocorrect = 1
+[github]
+	user = sametjan
