@@ -5,7 +5,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(pyenv-mode virtualenv elpy magit counsel swiper ivy which-key use-package projectile forge diminish)))
+   '(try pyenv-mode virtualenv elpy magit counsel swiper ivy which-key use-package projectile forge diminish)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -35,15 +35,6 @@ Ignores `ARGS'."
       (setq sha/packages-refreshed t))))
 (advice-add 'package-install :before #'sha/package-refresh)
 
-(defun sha/pyenv-hook ()
-  "Automatically activates pyenv version if .python-version file exists"
-  (f-traverse-upwards
-   (lambda (path)
-     (let ((pyenv-version-path (f-expand ".python-version" path)))
-       (if (f-exists? pyenv-version-path)
-	   (pyenv-mode-set (s-trim (f-read-text pyenv-version-path 'utf-8))))))))
-(add-hook 'find-file-hook 'sha/pyenv-hook)t
-
 ;; Bootstrap `use-package'
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -51,6 +42,7 @@ Ignores `ARGS'."
 (setq use-package-always-ensure t)
 
 (use-package diminish)
+(use-package try)
 
 (use-package emacs
   :ensure nil
@@ -88,11 +80,8 @@ Ignores `ARGS'."
   :config
   (setq ispell-list-command "--list"
 	ispell-program-name "/usr/local/bin/aspell")
-  (define-globalized-minor-mode global-flyspell-mode
-    flyspell-mode
-    (lambda ()
-      (flyspell-mode t)))
-  (global-flyspell-mode))
+  :hook ((prog-mode . flyspell-prog-mode)
+	 (text-mode . flyspell-mode)))
 
 (use-package js
   :ensure nil
