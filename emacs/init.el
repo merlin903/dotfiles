@@ -5,7 +5,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(counsel swiper ivy which-key use-package projectile forge diminish)))
+   '(pyenv-mode virtualenv elpy magit counsel swiper ivy which-key use-package projectile forge diminish)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -23,6 +23,26 @@
 			  ("org" . "https://orgmode.org/elpa/")))
 
 (package-initialize)
+
+(defvar sha/packages-refreshed nil
+  "Flag for whether package lists have been refreshed yet.")
+(defun sha/package-refresh (&rest args)
+  "Refresh package metadata, if needed.
+Ignores `ARGS'."
+  (unless (eq sha/packages-refreshed t)
+    (progn
+      (package-refresh-contents)
+      (setq sha/packages-refreshed t))))
+(advice-add 'package-install :before #'sha/package-refresh)
+
+(defun sha/pyenv-hook ()
+  "Automatically activates pyenv version if .python-version file exists"
+  (f-traverse-upwards
+   (lambda (path)
+     (let ((pyenv-version-path (f-expand ".python-version" path)))
+       (if (f-exists? pyenv-version-path)
+	   (pyenv-mode-set (s-trim (f-read-text pyenv-version-path 'utf-8))))))))
+(add-hook 'find-file-hook 'sha/pyenv-hook)t
 
 ;; Bootstrap `use-package'
 (unless (package-installed-p 'use-package)
@@ -78,6 +98,14 @@
   :ensure nil
   :hook (js-mode-hook . js-jsx-enable))
 
+(use-package pyenv-mode
+  :init
+  (pyenv-mode))
+(use-package elpy
+  :init
+  (setq elpy-rpc-virtualenv-path 'current)
+  (elpy-enable))
+
 (use-package which-key
   :diminish
   :config (which-key-mode))
@@ -118,3 +146,4 @@
    ("C-c j" . counsel-git-grep)
    ("C-c k" . counsel-ag)
    ("C-x l" . counsel-locate)))
+
