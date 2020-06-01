@@ -31,3 +31,6 @@ function make_completion --argument-names alias command
 end
 
 make_completion g 'git'
+
+# Direnv
+eval (direnv hook fish)
