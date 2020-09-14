@@ -7,6 +7,65 @@
 
 * Systems
 ** Base Configuration
+
+This is the base configuration that's shared between all of my computers.
+
+*** Install Homebrew
+
+Homebrew allows us to install UNIX programs similar to =apt-get= on Linux systems
+
+#+begin_src sh :tangle .config/homebrew/shared.sh :shebang #!/bin/sh
+
+# NOTE: This file is generated from ~/Development/sametjan/dotfiles/System.org.
+# Install Homebrew
+/usr/bing/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+#+end_src
+
+*** Taps
+
+Not everything we use is in the base Homebrew tap, so let's add them
+
+#+begin_src sh :tangle .config/homebrew/shared.sh :shebang #!/bin/sh
+
+brew tap d12frosted/emacs-plus # Better Emacs
+brew tap homebrew/cask # MacOS apps
+brew tap homebrew/cask-fonts # Fonts
+brew tap homebrew/cask-versions # Alternate versions
+
+#+end_src
+
+*** GNU Utiltiies
+
+The GNU utitilies that come with MacOS are outdated or customized by Apple. Let's install the GNU versions.
+
+#+begin_src sh :tangle .config/homebrew/shared.sh :shebang #!/bin/sh
+
+brew install coreutils
+brew install moreutils
+brew install findutils
+brew install gnu-sed
+
+#+end_src
+
+*** Shells
+
+Install newer versions of =bash= and =zsh=, along with the =fish= shell, and add them to =/etc/shells=
+
+#+begin_src sh :tangle .config/homebrew/shared.sh :shebang #!/bin/sh
+
+brew install bash
+brew install bash-completion
+
+brew install zsh
+brew install fish
+
+echo $(brew --prefix)/bin/bash | sudo tee -a /etc/shells
+echo $(brew --prefix)/bin/zsh | sudo tee -a /etc/shells
+echo $(brew --prefix)/bin/fish | sudo tee -a /etc/shells
+
+#+end_src
+
 ** Per-system-configuration
 *** Soundwave
 *** Hulu
@@ -99,3 +158,5 @@ emacs -Q --script ~/.emacs.d/tangle-dotfiles.el
 
 #+end_src
 * System Installation
+
+*.bin/symlink-dotfiles*
