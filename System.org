@@ -54,21 +54,53 @@ Install newer versions of =bash= and =zsh=, along with the =fish= shell, and add
 
 #+begin_src sh :tangle .config/homebrew/shared.sh :shebang #!/bin/sh
 
+# Bash
 brew install bash
 brew install bash-completion
 
+# ZSH and Fish
 brew install zsh
 brew install fish
 
+# Add them to /etc/shells
 echo $(brew --prefix)/bin/bash | sudo tee -a /etc/shells
 echo $(brew --prefix)/bin/zsh | sudo tee -a /etc/shells
 echo $(brew --prefix)/bin/fish | sudo tee -a /etc/shells
 
 #+end_src
 
+*** Outdated system software
+
+There are other UNIX programs that are outdated on MacOS as well. Might as well update those too.
+
+#+begin_src sh :tangle .config/homebrew/shared.sh :shebang #!/bin/sh
+
+brew install vim
+brew install grep
+brew install git
+
+#+end_src
+
+*** Programming Languages
+
+I primarilly use Node and Python, and need multiple versions of them.
+
+#+begin_src sh :tangle .config/homebrew/shared.sh :shebang #!/bin/sh
+
+brew install nvm
+brew install pyenv
+brew install pyenv-virtualenv
+
+#+end_src
+
 ** Per-system-configuration
 *** Soundwave
-*** Hulu
+
+Soundwave is my 2018 Macbook Pro that I primarily use at home.
+
+*** Work
+
+
 * Dotfiles Management
 
 ** Syncing
