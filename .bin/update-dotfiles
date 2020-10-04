@@ -1,10 +1,10 @@
 #!/bin/sh
-# Navigate to the directory of this script (generally ~/Development/sametjan/dotfiles/.bin)
-cd $(dirname $(greadlink -f $0))
+# Navigate to the directory of this script (generally ~/.dotfiles/.bin)
+cd $(dirname $(readlink -f $0))
 cd ..
 
 # The heavy lifting is done by an Emacs script
-emacs -Q --script ~/.emacs.d/tangle-dotfiles.el
+emacs -Q --script ./.emacs.d/tangle-dotfiles.el
 
 # Make sure any running Emacs instance gets updated settings
-# emacsclient -e '(load-file "~/.emacs.d/per-system-settings.el")' -a "echo 'Emacs is not currently running'"
+emacsclient -e '(load-file "~/.emacs.d/per-system-settings.el")' -a "echo 'Emacs is not currently running'"

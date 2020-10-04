@@ -7,7 +7,7 @@ RED='\033[1;30m'
 NC='\033[0m'
 
 # Navigate to the directory of this script (generally ~/.dotfiles/.bin)
-cd $(dirname $(greadlink -f $0))
+cd $(dirname $(readlink -f $0))
 cd ..
 
 echo
@@ -32,7 +32,7 @@ if [[ $needs_pop -eq 1 ]]; then
     git stash pop
 fi
 
-unmerged_files=$(git diff --name-only --diff-filter=U)
+unmerged_files=$(git diff --name-only --diff-filter U)
 if [[ ! -z $unmerged_files ]]; then
    echo -e "${RED}The following files have merge conflicts after popping the stash:${NC}"
    echo
