@@ -7,7 +7,7 @@ RED='\033[1;30m'
 NC='\033[0m'
 
 # Navigate to the directory of this script (generally ~/.dotfiles/.bin)
-cd $(dirname $(readlink -f $0))
+cd $(dirname $(greadlink -f $0))
 cd ..
 
 echo

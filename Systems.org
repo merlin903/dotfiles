@@ -145,7 +145,7 @@ RED='\033[1;30m'
 NC='\033[0m'
 
 # Navigate to the directory of this script (generally ~/.dotfiles/.bin)
-cd $(dirname $(readlink -f $0))
+cd $(dirname $(greadlink -f $0))
 cd ..
 
 echo
@@ -187,15 +187,15 @@ fi
 
 #+begin_src sh :tangle .bin/update-dotfiles :shebang #!/bin/sh
 
-# Navigate to the directory of this script (generally ~/.dotfiles/.bin)
-cd $(dirname $(readlink -f $0))
+# Navigate to the directory of this script (generally ~/Development/sametjan/dotfiles/.bin)
+cd $(dirname $(greadlink -f $0))
 cd ..
 
 # The heavy lifting is done by an Emacs script
 emacs -Q --script ./.emacs.d/tangle-dotfiles.el
 
 # Make sure any running Emacs instance gets updated settings
-emacsclient -e '(load-file "~/.emacs.d/per-system-settings.el")' -a "echo 'Emacs is not currently running'"
+# emacsclient -e '(load-file "~/.emacs.d/per-system-settings.el")' -a "echo 'Emacs is not currently running'"
 
 #+end_src
 
@@ -208,7 +208,7 @@ emacsclient -e '(load-file "~/.emacs.d/per-system-settings.el")' -a "echo 'Emacs
 ;; Don't ask when evaluating code blocks
 (setq org-confirm-babel-evaluate nil)
 
-(let* ((dotfiles-path (expand-file-name "~/.dotfiles"))
+(let* ((dotfiles-path (expand-file-name "~/Development/sametjan/dotfiles"))
        (org-files (directory-files dotfiles-path nil "\\.org$")))
   (dolist (org-file org-files)
     (unless (equal org-file "README.org")
