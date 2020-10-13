@@ -1,5 +1,5 @@
 #+TITLE: System Configuration
-#+PROPERTY: header-args :tangle yes :shebang #!/usr/bin/env bash :mkdirp t
+#+PROPERTY: header-args :tangle yes :mkdirp t :shebang #!/usr/bin/env bash
 
 * Table of Contents
 :PROPERTIES:
@@ -7,212 +7,256 @@
 :END:
 
 * Systems
+
 ** Base Configuration
 
-This is the base configuration that's shared between all of my computers.
+This base configuration is shared betweeen all of my MacOS machines. 
 
-*** Install Homebrew
+*** MacOS Preferences
 
-Homebrew allows su to install UNIX programs similar to =apt-get= on Linux systems.
+Since I'm only using Apple laptops, we'll apply our basic preferences, and add customizations 
+based on the age of the machine (i.e. touchbar).
 
-#+begin_src sh :tangle ./.config/homebrew/shared.sh
+Start off the script by making sure that =System Preferences.app= isn't running, as that 
+can cause problems when setting preferences progrmatically. I also need =sudo= throughout the
+script, so I'll ask for that upfront, and refresh its timestamp until the script is finished.
 
-# NOTE: This file is generated from ~/Development/sametjan/dotfiles/System.org.
-# It should not be run directly, but as part of the per-system setup script.
-# Install Homebrew
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+#+begin_src sh :tangle .config/macos.sh
 
-#+end_src
+  # NOTE: This file is generated from $HOME/Development/sametjan/dotfiles/Systems.org. Please see commentary there.
+  # Close any open System Preferences panes, to prevent them from overriding
+  # settings we're about to change.
+  osascript -e 'tell application "System Preferences" to quit'
 
-*** Taps
+  # Ask for the administrator password upfront
+  sudo -v
 
-Not everyting we use is in the base Homebrew tap, so let's add some more.
-
-#+begin_src sh :tangle ./.config/homebrew/shared.sh
-
-brew tap d12frosted/emacs-plus # Better Emacs
-brew tap homebrew/cask # MacOS Apps
-brew tap homebrew/cask-fonts # Fonts
-brew tap homebrew/cask-versions # Alternate versions from `homebrew/cask`
+  # Keep-alilve: update existing `sudo` timestamp until script has finished
+  while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 #+end_src
 
-*** GNU Utilities
+Make sure that the startup chime is enabled
 
-The GNU utilities that come with MacOS are outdated or customized by Apple. We'll install newer GNU versions.
+#+begin_src sh :tangle .config/macos.sh
+  sudo nvram SystemMute=%00
+#+end_src
 
-#+begin_src sh :tangle ./.config/homebrew/shared.sh
+**** General UI/UX
 
-brew install coreutils
-brew install moreutils
-brew install findutils
-brew install gnu-sed
+Tweak the UI to our preferences. This includes:
+- Theme
+- Colors
+- Scrollbars
+- Save and Print panels
+
+#+begin_src sh :tangle .config/macos.sh
+
+  # Use dark mode
+  defaults write NSGlobalDomain AppleInterfaceStyle -string Dark
+
+  # Set accent color to Graphite
+  defaults write NSGlobalDomain AppleAccentColor -int -1
+
+  # Set highlight color to Graphite
+  defaults write NSGlobalDomain AppleHighlightColor -string "0.847059 0.847059 0.862745"
+
+  # Automatically show/hide the scrollbar
+  defaults write NSGlobalDomain AppleShowScrollBars -string "Automatic"
+
+  # Disable the focus ring animation
+  defaults write NSGlobalDomain NSUseANimatedFocusRing -bool false
+
+  # Expand the save panel by default
+  defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+  defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
+
+  # Expand the print panel by default
+  defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
+  defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
+
+  # Automatically quit the printer app when the print jobs complete
+  defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
+
+  # Disable Resume system-wide
+  defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false
+
+  # Disable automatic termination of inactive apps
+  defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true
+
+  # Reveal IP address, hostname, OS version, etc. when clicking the clock
+  # in the login window
+  sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
 
 #+end_src
 
-*** Shells
+**** Input devices
 
-As of MacOS Catalina 10.15.7, =bash= and =zsh= are outdated. Update these to the newest versions,
-as well as install the =fish= shell and =bash-completion=, and add them to =/etc/shells= so we can
-start using them.
+Tweak the trackapd, keyboard, and various other input devices
 
-#+begin_src sh :tangle ./.config/homebrew/shared.sh
+#+begin_src sh :tangle .config/macos.sh
 
-# Bash
-brew install bash
-brew install bash-completion
+  # Trackpad: enable tap to click for this user and for the login screen
+  defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+  defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+  defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 
-#ZSH and Fish
-brew install zsh
-brew install fish
+  # Enable full keyboard access for all controls
+  # (e.g. enable Tab in modal dialogs)
+  defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 
-# Add them to /etc/shells
-echo $(brew --prefix)/bin/bash | sudo tee -a /etc/shells
-echo $(brew --prefix)/bin/zsh | sudo tee -a /etc/shells
-echo $(brew --prefix)/bin/fish | sudo tee -a /etc/shells
+  # Use scroll gesture with the Ctrl (^) modifier key to zoom
+  defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true
+  defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 262144
+  # Follow the keyboard focus while zoomed in
+  defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true
 
-#+end_src
+  # Set language and text formats
+  # US English and Japanese
+  defaults write NSGlobalDomain AppleLanguages -array "en-US" "ja"
+  defaults write NSGlobalDomain AppleLocale -string "en_US@currency=USD"
+  defaults write NSGlobalDomain AppleMeasurementUnits -string "Inches"
+  defaults write NSGlobalDomain AppleMetricUnits -bool false
 
-*** Outdated System Software
-
-There are other UNIX programs that are outdated on MacOS as well. We should probably update those as well.
-
-#+begin_src sh :tangle ./.config/homebrew/shared.sh
-
-brew install vim # Blasphemy, I know.
-brew install grep
-brew install git
+  # Show language menu in the top right corner of the boot screen
+  sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bool true
 
 #+end_src
 
-*** Programming Languages
+**** Energy Settings
 
-I primarilly use Node and Python, both at home and at work, and need multiple versions of them for different
-projects.
+Tweak the Energy Saver settings
 
-#+begin_src sh :tangle ./.config/homebrew/shared.sh
+#+begin_src sh :tangle .config/macos.sh
 
-brew install nvm
-brew install pyenv
-brew install pyenv-virtualenv
+  # Enable lid wakeup
+  sudo pmset -a lidwake 1
+
+  # Restart automatically on power loss
+  sudo pmset -a autorestart 1
+
+  # Restart automatically if the computer freezes
+  sudo systemsetup -setrestartfreeze on
+
+  # Sleep the display after 15 minutes
+  sudo pmset -a displaysleep 15
+
+  # Disable machine sleep while charging
+  sudo pmset -c sleep 0
+
+  # Set machine sleep to 5 minutes on battery
+  sudo pmset -b sleep 5
+
+  # Set standby delay to 24 hours (default is 1 hour)
+  sudo pmset -a standbydelay 86400
+
+  # Never go into computer sleep mode
+  sudo systemsetup -setcomputersleep Off > /dev/null
+
+  # Hibernation mode
+  # 0: Disable hibernation (speeds up entering sleep mode)
+  # 3: Copy RAM to disk so the system state can still be restored in case of a
+  #    power failure.
+  sudo pmset -a hibernatemode 0
+
+  # Remove the sleep image file to save disk space
+  sudo rm /private/var/vm/sleepimage
+  # Create a zero-byte file instead…
+  sudo touch /private/var/vm/sleepimage
+  # …and make sure it can’t be rewritten
+  sudo chflags uchg /private/var/vm/sleepimage
 
 #+end_src
 
-** Per-system Configuration
-*** Home
-#+PROPERTY: header-args :tangle ./.config/soundwave/setup.sh :shebang #!/usr/bin/env bash :mkdirp t
+**** Restart apps to apply changes
 
-Soundwave is my 2018 MacBook Pro that I use at home.
+Most of these changes won't take effect until the apps are restarted, so loop through the apps,
+and kill them.
+
+#+begin_src sh :tangle .config/macos.sh
+
+  ################################################################
+  # Kill all affected applications
+  ################################################################
+  for app in "Activity Monitor" \
+		 "Address Book" \
+		 "Calendar" \
+		 "cfprefsd" \
+		 "Contacts" \
+		 "Dock" \
+		 "Finder" \
+		 "Google Chrome" \
+		 "Mail" \
+		 "Messages" \
+		 "Photos" \
+		 "Safari" \
+		 "SystemUIServer" \
+		 "Terminal"; do
+      killall "${app}" &> /dev/null
+  done
+
+#+end_src
+
+Finally, echo a reminder to restart or logout so all the changes can take effect
+
+#+begin_src sh :tangle .config/macos.sh
+  echo "Done. Note that some of these changes require a logout/restart to take effect."
+#+end_src
+
+*** Homebrew
+
+*** MacOS Apps (Casks and MAS)
+
+*** Bash
+
+*** ZSH
+
+*** Fish
+
+** Machines
+
+**** MacOS Preferences
+
+
+
+*** Per-System Settings
+
+*** Soundwave
+
+**** MacOS Preferences
+
+Set the computer name.
+#+begin_src sh :tangle .config/macos.sh
+
+  # Get computer name
+  currentName=$(scutil --get ComputerName)
+
+  computerName="Soundwave"
+  # Set computer name (as done via System Preferences -> Sharing)
+  if [[ $currentName =~ (MacBook Pro)$ ]]; then
+      sudo scutil --set ComputerName $computerName
+      sudo scutil --set HostName  ${computerName// /-}
+      sudo scutil --set LocalHostName ${computerName// /-}
+  fi
+
+#+end_src
+
+
 
 **** Homebrew
 
-Install the shared programs from Homebrew.
+**** MacOS Apps (Casks and MAS)
 
-#+begin_src sh
-../homebrew/shared.sh
-#+end_src
+*** Hulu
 
-**** Additional Programming Languages
+**** Homebrew
 
-I'm starting to learn Haskell, so let's install that at home.
-
-#+begin_src sh
-
-# Install Haskell
-curl https://get-ghcup.haskell.org -sSf | sh
-
-#+end_src
-
-*** Work
-
-This is my work issued laptop. It's currently a 2015 MacBook Pro.
+**** MacOS Apps (Casks and MAS)
 
 * Dotfiles Management
 
-These scripts are taken from [[https://github.com/daviwil/dotfiles/][daviwil's dotfiles]].
-
 ** Syncing
-
-*.bin/sync-dotfiles*
-
-#+begin_src sh :tangle .bin/sync-dotfiles :shebang #!/bin/sh
-
-# Sync dotfiles repo and ensure that dotfiles are tangled correctly afterward
-
-GREEN='\033[1;32m'
-BLUE='\033[1;34m'
-RED='\033[1;30m'
-NC='\033[0m'
-
-# Navigate to the directory of this script (generally ~/.dotfiles/.bin)
-cd $(dirname $(greadlink -f $0))
-cd ..
-
-echo
-echo -e "${BLUE}Saving Org buffers if Emacs is running...${NC}"
-emacsclient -u -e "(org-save-all-org-buffers)" -a "echo 'Emacs is not currently running'"
-
-echo -e "${BLUE}Stashing existing changes...${NC}"
-stash_result=$(git stash push -m "sync-dotfiles: Before syncing dotfiles")
-needs_pop=1
-if [ "$stash_result" = "No local changes to save" ]; then
-    needs_pop=0
-fi
-
-echo -e "${BLUE}Pulling updates from dotfiles repo...${NC}"
-echo
-git pull origin master
-echo
-
-if [[ $needs_pop -eq 1 ]]; then
-    echo -e "${BLUE}Popping stashed changes...${NC}"
-    echo
-    git stash pop
-fi
-
-unmerged_files=$(git diff --name-only --diff-filter U)
-if [[ ! -z $unmerged_files ]]; then
-   echo -e "${RED}The following files have merge conflicts after popping the stash:${NC}"
-   echo
-   printf %"s\n" $unmerged_files  # Ensure newlines are printed
-else
-    update-dotfiles
-fi
-
-#+end_src
 
 ** Updating
 
-*.bin/update-dotfiles*
-
-#+begin_src sh :tangle .bin/update-dotfiles :shebang #!/bin/sh
-
-# Navigate to the directory of this script (generally ~/Development/sametjan/dotfiles/.bin)
-cd $(dirname $(greadlink -f $0))
-cd ..
-
-# The heavy lifting is done by an Emacs script
-emacs -Q --script ./.emacs.d/tangle-dotfiles.el
-
-# Make sure any running Emacs instance gets updated settings
-# emacsclient -e '(load-file "~/.emacs.d/per-system-settings.el")' -a "echo 'Emacs is not currently running'"
-
-#+end_src
-
-*.emacs.d/tangle-dotfiles.el*
-
-#+begin_src emacs-lisp :tangle .emacs.d/tangle-dotfiles.el
-
-(require 'org)
-
-;; Don't ask when evaluating code blocks
-(setq org-confirm-babel-evaluate nil)
-
-(let* ((dotfiles-path (expand-file-name "~/Development/sametjan/dotfiles"))
-       (org-files (directory-files dotfiles-path nil "\\.org$")))
-  (dolist (org-file org-files)
-    (unless (equal org-file "README.org")
-      (message "\n\033[1;32mUpdating %s\033[0m\n" org-file)
-      (org-babel-tangle-file (expand-file-name org-file dotfiles-path)))))
-
-#+end_src
+* System Installation
