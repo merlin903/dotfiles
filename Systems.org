@@ -255,6 +255,15 @@ Set the computer name.
 
 * Dotfiles Management
 
+Shamelessy stealing this section from [[https://github.com/daviwil/dotfiles/blob/master/Systems.org#dotfiles-management][daviwil]]'s dotfiles.
+
+#+begin_quote
+Since I keep all of my important configuration files in Org Mode
+code blocks, I have to ensure that the real configuration files 
+are kept up to date when I sync the latest changes to my dotfiles
+repo. I’ve written a couple of scripts to simplify that process:
+#+end_quote
+
 ** Syncing
 
 ** Updating
