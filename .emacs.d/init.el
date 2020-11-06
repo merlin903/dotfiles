@@ -332,3 +332,6 @@
   :after org
   :hook (org-mode . org-bullets-mode)
   :custom (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+
+(use-package try)
+(put 'upcase-region 'disabled nil)

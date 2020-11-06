@@ -553,5 +553,18 @@ bullets instead.
 
 #+end_src
 
+* Random Packages
+
+** Try
+
+=try= is a package that allows us to quickly test a new package,
+without installing it.
+
+#+begin_src emacs-lisp :tangle .emacs.d/init.el :mkdirp t
+
+(use-package try)
+
+#+end_src
+
 * Todos
 ** TODO Look into [[https://gitlab.com/jabranham/system-packages][system-packages]] and [[https://github.com/jwiegley/use-package#use-package-ensure-system-package][use-package-ensure-system-package]]
