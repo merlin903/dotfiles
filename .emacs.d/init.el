@@ -217,7 +217,8 @@
         org-hide-block-startup nil
         org-startup-folded 'content
         org-cycle-separator-lines 2
-	org-directory "~/Documents/OrgFiles")
+	  org-directory "~/Documents/OrgFiles")
+  (add-to-list 'org-modules 'org-tempo t)
 
   (sa/org-font-setup)
 
@@ -318,9 +319,6 @@
 	(sequence "BACKLOG(b)" "PLAN(p)" "READY(r)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|" "COMPLETED(c)" "CANCELLED(k@)")
 	(sequence "GOAL(g)" "|" "ACHIEVED(v)" "MAINTAIN(m)")))
 
-;; This is needed as of Org 9.2
-(require 'org-tempo)
-
 (add-to-list 'org-structure-template-alist '("sh"   . "src sh"))
 (add-to-list 'org-structure-template-alist '("el"   . "src emacs-lisp"))
 (add-to-list 'org-structure-template-alist '("sc"   . "src scheme"))
@@ -351,5 +349,32 @@
 
 (use-package forge
   :after magit)
+
+(use-package projectile
+  :diminish projectile-mode
+  :config (projectile-mode)
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+  :init
+  (setq projectile-project-search-path '("~/Development"))
+  (setq projectile-switch-project-action #'projectile-dired))
+
+;;;###autoload
+(defun sha/cmd-projectile-index-projects ()
+  "Index my project directories."
+  (interactive)
+
+  (mapc #'projectile-add-known-project
+        (sha/f-find-git-projects projectile-project-search-path 5))
+
+  (projectile-cleanup-known-projects))
+
+(defun sha/f-find-git-projects (dir &optional depth)
+  "Find all git projects under DIR.
+Optionally only search as deep as DEPTH."
+  (let* ((depth-flag (if depth (format "-maxdepth %d" depth) ""))
+         (cmd (format "find %s %s -name '.git' -type d" dir depth-flag))
+         (result (split-string (shell-command-to-string cmd))))
+    (mapcar (lambda (s) (substring s 0 -4)) result)))
 
 (use-package try)
