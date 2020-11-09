@@ -318,6 +318,17 @@
 	(sequence "BACKLOG(b)" "PLAN(p)" "READY(r)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|" "COMPLETED(c)" "CANCELLED(k@)")
 	(sequence "GOAL(g)" "|" "ACHIEVED(v)" "MAINTAIN(m)")))
 
+;; This is needed as of Org 9.2
+(require 'org-tempo)
+
+(add-to-list 'org-structure-template-alist '("sh"   . "src sh"))
+(add-to-list 'org-structure-template-alist '("el"   . "src emacs-lisp"))
+(add-to-list 'org-structure-template-alist '("sc"   . "src scheme"))
+(add-to-list 'org-structure-template-alist '("ts"   . "src typescript"))
+(add-to-list 'org-structure-template-alist '("py"   . "src python"))
+(add-to-list 'org-structure-template-alist '("yaml" . "src yaml"))
+(add-to-list 'org-structure-template-alist '("json" . "src json"))
+
 )
 
 (defun sa/org-babel-tangle-dont-ask ()
@@ -333,5 +344,12 @@
   :hook (org-mode . org-bullets-mode)
   :custom (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
+(use-package magit
+  :commands (magit-status magit-get-current-branch)
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+
+(use-package forge
+  :after magit)
+
 (use-package try)
-(put 'upcase-region 'disabled nil)

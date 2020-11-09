@@ -515,6 +515,22 @@ Install the newest version of Org, along with the contrib modules
 
 #+end_src
 
+** Block Templates
+#+begin_src emacs-lisp :tangle .emacs.d/init.el :mkdirp t
+
+;; This is needed as of Org 9.2
+(require 'org-tempo)
+
+(add-to-list 'org-structure-template-alist '("sh"   . "src sh"))
+(add-to-list 'org-structure-template-alist '("el"   . "src emacs-lisp"))
+(add-to-list 'org-structure-template-alist '("sc"   . "src scheme"))
+(add-to-list 'org-structure-template-alist '("ts"   . "src typescript"))
+(add-to-list 'org-structure-template-alist '("py"   . "src python"))
+(add-to-list 'org-structure-template-alist '("yaml" . "src yaml"))
+(add-to-list 'org-structure-template-alist '("json" . "src json"))
+
+#+end_src
+
 ** Close Org use-package
 
 #+begin_src emacs-lisp :tangle .emacs.d/init.el :mkdirp t
@@ -551,6 +567,24 @@ bullets instead.
   :hook (org-mode . org-bullets-mode)
   :custom (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
+#+end_src
+
+* Development
+
+** Git
+
+*** Magit
+#+begin_src emacs-lisp :tangle .emacs.d/init.el :mkdirp t
+(use-package magit
+  :commands (magit-status magit-get-current-branch)
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+#+end_src
+
+*** Forge
+#+begin_src emacs-lisp :tangle .emacs.d/init.el :mkdirp t
+(use-package forge
+  :after magit)
 #+end_src
 
 * Random Packages
