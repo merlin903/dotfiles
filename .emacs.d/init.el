@@ -20,10 +20,10 @@
 
 (require 'subr-x)
 (setq sa/is-ish
-      (> (string-match-p "iSH" (string-trim (shell-command-to-string "uname -a"))) 0))
+      (string-match-p (regexp-quote "iSH") (string-trim (shell-command-to-string "uname -a"))))
 
 (setq sa/is-darwin
-      (> (string-match-p "Darwin" (string-trim (shell-command-to-string "uname -a"))) 0))
+      (string-match-p (regexp-quote "Darwin") (string-trim (shell-command-to-string "uname -a"))))
 
 ;; Keep transient cruft out of ~/.emacs.d
 (setq user-emacs-directory "~/.cache/emacs/"
@@ -101,3 +101,67 @@ Ignores `ARGS'."
        platform-expressions)))
 
 (server-start)
+
+(use-package which-key
+  :init (which-key-mode)
+  :diminish which-key-mode
+  :config
+  (setq which-key-idle-delay 0.3))
+
+(use-package general
+  :config
+  (general-create-definer sa/leader-key-def
+    :global-prefix "C-M-SPC")
+  (general-create-definer sa/ctrl-c-keys
+    :prefix "C-c"))
+
+;; Disable the startup message
+(setq inhibit-startup-message t)
+
+(unless sa/is-ish
+  (scroll-bar-mode -1)			; Disable visible scrollbar
+  (tool-bar-mode -1)			; Disable the toolbar
+  (tooltip-mode -1)			; Disable tooltips
+  (set-fringe-mode 10))			; Give some breathing room
+
+(menu-bar-mode -1)			; Disable the menu bar
+
+(setq visible-bell t)			; Set up the visible bell
+
+(unless sa/is-ish
+  (setq mouse-wheel-scroll-amount
+	'(1 ((shift) . 1)))		; One line at a time
+  (setq mouse-wheel-progressive-speed
+	nil)				; Don't accelerate scrolling
+  (setq mouse-wheel-follow-mouse 't)	; Scroll window under mouse
+  (setq scroll-step 1))			; Keyboard scroll one line at a time
+
+(unless sa/is-ish
+  (set-frame-parameter (selected-frame) 'fullscreen 'maximized)
+  (add-to-list 'default-frame-alist '(fullscreen . maximized)))
+
+(column-number-mode)
+
+;; Enable line numbers for some modes
+(dolist (mode '(text-mode-hook
+		prog-mode-hook
+		conf-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 1))))
+
+;; Override some modes which derive from the above
+(dolist (mode '(org-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+(setq large-file-warning-threshold nil)
+
+(setq vc-follow-symlinks t)
+
+(setq ad-redefinition-action 'accept)
+
+(use-package doom-themes
+  :config
+  (unless sa/is-ish
+    (load-theme 'doom-solarized-dark)
+    (doom-themes-visual-bell-config))
+  (unless sa/is-darwin
+    (load-theme 'misterioso)))
