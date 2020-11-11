@@ -169,36 +169,36 @@ Ignores `ARGS'."
 (unless sa/is-ish
   (on-platform-do
    ((windows cygwin) (set-face-attribute 'default nil :font "JetBrains Mono:antialias=subpixel" :height 130))
-   (osx (set-face-attribute 'default nil :font "JetBrains Mono" :height 170))
+   (osx (set-face-attribute 'default nil :font "JetBrains Mono" :height 140))
    (linux (set-face-attribute 'default nil :font "JetBrains Mono" :height 220))))
 
-(defun sa/replace-unicode-font-mapping (block-name old-font new-font)
-  (let* ((block-idx (cl-position-if
-		     (lambda (i) (string-equal (car i) block-name))
-		     unicode-fonts-block-font-mapping))
-	 (block-fonts (cadr (nth block-idx unicode-fonts-block-font-mapping)))
-	 (updated-block (cl-substitute new-font old-font block-fonts :test 'string-equal)))
-    (setf (cdr (nth block-idx unicode-fonts-block-font-mapping))
-	  `(,updated-block))))
+;; (defun sa/replace-unicode-font-mapping (block-name old-font new-font)
+;;   (let* ((block-idx (cl-position-if
+;; 		     (lambda (i) (string-equal (car i) block-name))
+;; 		     unicode-fonts-block-font-mapping))
+;; 	 (block-fonts (cadr (nth block-idx unicode-fonts-block-font-mapping)))
+;; 	 (updated-block (cl-substitute new-font old-font block-fonts :test 'string-equal)))
+;;     (setf (cdr (nth block-idx unicode-fonts-block-font-mapping))
+;; 	  `(,updated-block))))
 
-(use-package unicode-fonts
-  :if (not sa/is-ish)
-  :custom
-  (unicode-fonts-skip-fonts-groups '(low-quality-glyphs))
-  :config
-  ;; Fix the font mappings to use the right emoji font
-  (mapcar
-   (lambda (block-name)
-     (sa/replace-unicode-font-mapping block-name "Apple Color Emoji" "Noto Color Emoji"))
-   '("Dingbats"
-     "Emoticons"
-     "Miscellaneous Symbols and Pictorgraphs"
-     "Transport and Map Symbols"))
-  (unicode-fonts-setup))
+;; (use-package unicode-fonts
+;;   :if (not sa/is-ish)
+;;   :custom
+;;   (unicode-fonts-skip-fonts-groups '(low-quality-glyphs))
+;;   :config
+;;   ;; Fix the font mappings to use the right emoji font
+;;   (mapcar
+;;    (lambda (block-name)
+;;      (sa/replace-unicode-font-mapping block-name "Apple Color Emoji" "Noto Color Emoji"))
+;;    '("Dingbats"
+;;      "Emoticons"
+;;      "Miscellaneous Symbols and Pictorgraphs"
+;;      "Transport and Map Symbols"))
+;;   (unicode-fonts-setup))
 
-(use-package emojify
-  :hook (erc-mode . emojify-mode)
-  :commands emojify-mode)
+;; (use-package emojify
+;;   :hook (erc-mode . emojify-mode)
+;;   :commands emojify-mode)
 
 (setq display-time-format "%l:%M %p %b %y"
       display-time-default-load-average nil)
