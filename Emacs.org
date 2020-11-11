@@ -315,3 +315,80 @@ Don't warn when advice is added for functions
 
 #+end_src
  
+** Fonts
+
+*** Set the font
+
+Different platforms need different default font sizes.
+
+#+begin_src emacs-lisp
+
+  (unless sa/is-ish
+    (on-platform-do
+     ((windows cygwin) (set-face-attribute 'default nil :font "JetBrains Mono:antialias=subpixel" :height 130))
+     (osx (set-face-attribute 'default nil :font "JetBrains Mono" :height 170))
+     (linux (set-face-attribute 'default nil :font "JetBrains Mono" :height 220))))
+
+#+end_src
+
+*** Enable proper Unicode glyph support
+
+#+begin_src emacs-lisp
+
+  (defun sa/replace-unicode-font-mapping (block-name old-font new-font)
+    (let* ((block-idx (cl-position-if
+		       (lambda (i) (string-equal (car i) block-name))
+		       unicode-fonts-block-font-mapping))
+	   (block-fonts (cadr (nth block-idx unicode-fonts-block-font-mapping)))
+	   (updated-block (cl-substitute new-font old-font block-fonts :test 'string-equal)))
+      (setf (cdr (nth block-idx unicode-fonts-block-font-mapping))
+	    `(,updated-block))))
+
+  (use-package unicode-fonts
+    :if (not sa/is-ish)
+    :custom
+    (unicode-fonts-skip-fonts-groups '(low-quality-glyphs))
+    :config
+    ;; Fix the font mappings to use the right emoji font
+    (mapcar
+     (lambda (block-name)
+       (sa/replace-unicode-font-mapping block-name "Apple Color Emoji" "Noto Color Emoji"))
+     '("Dingbats"
+       "Emoticons"
+       "Miscellaneous Symbols and Pictorgraphs"
+       "Transport and Map Symbols"))
+    (unicode-fonts-setup))
+
+#+end_src
+
+*** Emojis in buffers
+
+#+begin_src emacs-lisp
+
+  (use-package emojify
+    :hook (erc-mode . emojify-mode)
+    :commands emojify-mode)
+
+#+end_src
+
+** Mode Line
+
+*** Basic Customization
+
+#+begin_src emacs-lisp
+
+  (setq display-time-format "%l:%M %p %b %y"
+	display-time-default-load-average nil)
+
+#+end_src
+
+*** Enable Mode Diminishing
+
+The [[https://github.com/myrjola/diminish.el][=diminish=]] package hides pesky minor modes from the mode line
+
+#+begin_src emacs-lisp
+
+  (use-package diminish)
+
+#+end_src
+
