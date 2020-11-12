@@ -371,9 +371,9 @@ Ignores `ARGS'."
   (ivy-posframe-min-height 10)
   :config
   (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
-  (setq ivy-posframe-parameters '((parent-frame . nil)
-                                  (left-fringe . 8)
-                                  (right-frindge . 8)))
+  ;; (setq ivy-posframe-parameters '((parent-frame . nil)
+  ;;                                 (left-fringe . 8)
+  ;;                                 (right-frindge . 8)))
   (ivy-posframe-mode 1))
 
 (sa/leader-key-def
@@ -383,3 +383,35 @@ Ignores `ARGS'."
   "fr" '(counsel-recentf :which-key "recent files")
   "fR" '(revert-buffer :which-key "revert file")
   "fj" '(counsel-file-jump :which-key "jump to file"))
+
+(use-package xwidget
+  :custom
+  (browse-url-browser-function 'xwidget-webkit-browse-url))
+
+(use-package search-web
+  :bind ("C-c w" . 'search-web)
+  :config
+  (defun browse-url-default-browser (url &rest args)
+    "Override `browse-url-default-browser' to use `xwidget-webkit' URL ARGS."
+    (xwidget-webkit-browse-url url args)))
+
+(use-package magit
+  :commands (magit-status magit-get-current-branch)
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
+  :config (global-set-key (kbd "C-M-;") 'magit-status))
+
+(sa/leader-key-def
+  "g" '(:ignore t :which-key "git")
+  "gs" 'magit-status
+  "gd" 'magit-diff-unstaged
+  "gc" 'magit-branch-or-checkout
+  "gl" '(:ignore t :which-key "log")
+  "glc" 'magit-log-current
+  "glf" 'magit-log-buffer-file
+  "gb" 'magit-branch
+  "gP" 'magit-push-current
+  "gp" 'magit-pull-branch
+  "gf" 'magit-fetch
+  "gF" 'magit-fetch-all
+  "gr" 'magit-rebase)
