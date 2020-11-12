@@ -301,29 +301,42 @@ Ignores `ARGS'."
   (org-show-subtree)
   (forward-line))
 
+(sa/leader-key-def
+  "f" '(:ignore t :which-key "files")
+  "fb" '((lambda () (interactive) (counsel-find-file "~/Documents/OrgFiles/")) :which-key "beorg")
+  "fd" '(:ignore t :which-key "dotfiles")
+  "fdd" '((lambda () (interactive) (find-file "~/Development/sametjan/dotfiles/Desktop.org")) :which-key "desktop")
+  "fde" '((lambda () (interactive) (find-file (expand-file-name "~/Development/sametjan/dotfiles/Emacs.org"))) :which-key "edit config")
+  "fdE" '((lambda () (interactive) (sa/org-file-show-headings "~/Development/sametjan/dotfiles/Emacs.org")) :which-key "edit config")
+  "fds" '((lambda () (interactive) (sa/org-file-jump-to-heading "~/Development/sametjan/Systems.org" "Base Configuration")) :which-key "base system")
+  "fdS" '((lambda () (interactive) (sa/org-file-jump-to-heading "~/Development/sametjan/Systems.org" system-name)) :which-key "this system"))
+
+(use-package hydra
+  :defer 1)
+
 (use-package counsel
   :diminish
   :bind (("M-x" . counsel-M-x)
-	 ("C-x b" . counsel-ibuffer)
-	 ("C-x C-f" . counsel-find-file)
-	 ("C-M-l" . counsel-imenu)
-	 :map minibuffer-local-map
-	 ("C-r" . 'counsel-minibuffer-history)))
+         ("C-x b" . counsel-ibuffer)
+         ("C-x C-f" . counsel-find-file)
+         ("C-M-l" . counsel-imenu)
+         :map minibuffer-local-map
+         ("C-r" . 'counsel-minibuffer-history)))
 
 (use-package ivy
   :diminish
   :bind (("C-s" . swiper)
-	 :map ivy-minibuffer-map
-	 ("C-n" . ivy-next-line)
-	 ("C-p" . ivy-previous-line)
-	 :map ivy-switch-buffer-map
-	 ("C-n" . ivy-next-line)
-	 ("C-p" . ivy-previous-line)
-	 ("C-k" . ivy-switch-buffer-kill)
-	 :map ivy-reverse-i-search-map
-	 ("C-n" . ivy-next-line)
-	 ("C-p" . ivy-previous-line)
-	 ("C-k" . ivy-reverse-i-search-kill))
+         :map ivy-minibuffer-map
+         ("C-n" . ivy-next-line)
+         ("C-p" . ivy-previous-line)
+         :map ivy-switch-buffer-map
+         ("C-n" . ivy-next-line)
+         ("C-p" . ivy-previous-line)
+         ("C-k" . ivy-switch-buffer-kill)
+         :map ivy-reverse-i-search-map
+         ("C-n" . ivy-next-line)
+         ("C-p" . ivy-previous-line)
+         ("C-k" . ivy-reverse-i-search-kill))
   :init (ivy-mode 1)
   :custom
   (ivy-use-virtual-buffers t)
@@ -336,3 +349,37 @@ Ignores `ARGS'."
   (setf (alist-get 'counsel-projectile-rg ivy-height-alist) 15)
   (setf (alist-get 'swiper ivy-height-alist) 15)
   (setf (alist-get 'counsel-switch-buffer ivy-height-alist) 7))
+
+(use-package ivy-hydra
+  :defer t
+  :after hydra)
+
+(use-package ivy-rich
+  :init (ivy-rich-mode 1))
+
+(use-package smex      ;Adds M-x recent commands sorting for counsel-M-x
+  :defer 1
+  :after counsel)
+
+(use-package wgrep)
+
+(use-package ivy-posframe
+  :custom
+  (ivy-posframe-width 115)
+  (ivy-posframe-win-width 115)
+  (ivy-posframe-height 10)
+  (ivy-posframe-min-height 10)
+  :config
+  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
+  (setq ivy-posframe-parameters '((parent-frame . nil)
+                                  (left-fringe . 8)
+                                  (right-frindge . 8)))
+  (ivy-posframe-mode 1))
+
+(sa/leader-key-def
+  "r" '(ivy-resume :which-key "ivy resume")
+  "ff" '(counsel-find-file :which-key "open file")
+  "C-f" 'counsel-find-file
+  "fr" '(counsel-recentf :which-key "recent files")
+  "fR" '(revert-buffer :which-key "revert file")
+  "fj" '(counsel-file-jump :which-key "jump to file"))
