@@ -76,6 +76,9 @@ Ignores `ARGS'."
 ;; Add my elisp path to load-path
 (push "~/.emacs.d/elisp" load-path)
 
+;; Add /usr/local/bin to exec-path
+(push "/usr/local/bin" exec-path)
+
 (defun platform-keyword-to-string (platform-keyword)
   "Helper function for changing OS platform keywords to system-type strings"
   (cond
@@ -100,6 +103,8 @@ Ignores `ARGS'."
 	     ,expr)))
        platform-expressions)))
 
+(use-package try)
+
 (server-start)
 
 (use-package which-key
@@ -110,8 +115,9 @@ Ignores `ARGS'."
 
 (use-package general
   :config
+  (general-auto-unbind-keys)
   (general-create-definer sa/leader-key-def
-    :global-prefix "C-M-SPC")
+    :prefix "C-SPC")
   (general-create-definer sa/ctrl-c-keys
     :prefix "C-c"))
 
@@ -119,10 +125,10 @@ Ignores `ARGS'."
 (setq inhibit-startup-message t)
 
 (unless sa/is-ish
-  (scroll-bar-mode -1)			; Disable visible scrollbar
+  (scroll-bar-mode -1)		; Disable visible scrollbar
   (tool-bar-mode -1)			; Disable the toolbar
   (tooltip-mode -1)			; Disable tooltips
-  (set-fringe-mode 10))			; Give some breathing room
+  (set-fringe-mode 10))		; Give some breathing room
 
 (menu-bar-mode -1)			; Disable the menu bar
 
@@ -134,7 +140,7 @@ Ignores `ARGS'."
   (setq mouse-wheel-progressive-speed
 	nil)				; Don't accelerate scrolling
   (setq mouse-wheel-follow-mouse 't)	; Scroll window under mouse
-  (setq scroll-step 1))			; Keyboard scroll one line at a time
+  (setq scroll-step 1))		; Keyboard scroll one line at a time
 
 (unless sa/is-ish
   (set-frame-parameter (selected-frame) 'fullscreen 'maximized)
@@ -204,3 +210,129 @@ Ignores `ARGS'."
       display-time-default-load-average nil)
 
 (use-package diminish)
+
+(use-package minions
+  :hook (doom-modeline-mode . minions-mode))
+
+(use-package doom-modeline
+  :init (doom-modeline-mode 1)
+  :custom
+  (doom-modeline-height 15)
+  (doom-modeline-bar-width 6)
+  (doom-modeline-lsp t)
+  (doom-modeline-github t)
+  (doom-modeline-mu4e nil)
+  (doom-modeline-irc nil)
+  (doom-modeline-minor-modes t)
+  (doom-modeline-persp-name nil)
+  (doom-modeline-buffer-file-name-style 'truncate-except-project)
+  (doom-modeline-major-mode-icon t))
+
+(use-package alert
+  :commands alert
+  :ensure-system-package growlnotify
+  :config
+  (setq alert-default-style 'growl))
+
+(global-auto-revert-mode 1)
+
+(sa/leader-key-def
+  "t" '(:ignore t :which-key "toggles")
+  "tw" 'whitespace-mode
+  "tt" '(counsel-load-theme :which-key "choose theme"))
+
+(use-package paren
+  :config (show-paren-mode 1))
+
+(setq display-time-world-list
+      '(("America/Los_Angeles" "Los Angeles")
+	("America/Mexico_City" "Mexico City")
+	("America/New_York" "New York")))
+(setq display-time-world-time-format "%a, %d %b %I:%M %p %Z")
+
+(use-package pinentry
+  :ensure-system-package gpg
+  :custom
+  (epg-pinentry-mode 'loopback)
+  :init
+  (pinentry-start))
+
+(setq tramp-default-method "ssh")
+
+(use-package editorconfig
+  :ensure-system-package editorconfig
+  :config
+  (editorconfig-mode 1))
+
+(use-package parinfer
+  :hook ((clojure-mode . parinfer-mode)
+	 (emacs-lisp-mode . parinfer-mode)
+	 (common-lisp-mode . parinfer-mode)
+	 (scheme-mode . parinfer-mode)
+	 (lisp-mode . parinfer-mode))
+  :config
+  (setq parinfer-extensions
+	'(defaults      ; should be included
+	   pretty-parens    ; different paren styles for different modes
+	   smart-tab      ; C-b & C-f jump positions and smart shift with tab & S-tab
+	   smart-yank)))    ; Yank behavior depends on mode
+
+(sa/leader-key-def
+  "tp" 'parinfer-toggle-mode)
+
+(defun sa/org-file-jump-to-heading (org-file heading-title)
+  "Jump to a specific heading in an Org file"
+  (interactive)
+  (find-file (expand-file-name org-file))
+  (goto-char (point-min))
+  (search-forward (concat "* " heading-title))
+  (org-overview)
+  (org-reveal)
+  (org-show-subtree)
+  (forward-line))
+
+(defun sa/org-file-show-headings (org-file)
+  "Show headings in an Org file"
+  (interactive)
+  (find-file (expand-file-name org-file))
+  (counsel-org-goto)
+  (org-overview)
+  (org-reveal)
+  (org-show-subtree)
+  (forward-line))
+
+(use-package counsel
+  :diminish
+  :bind (("M-x" . counsel-M-x)
+	 ("C-x b" . counsel-ibuffer)
+	 ("C-x C-f" . counsel-find-file)
+	 ("C-M-l" . counsel-imenu)
+	 :map minibuffer-local-map
+	 ("C-r" . 'counsel-minibuffer-history)))
+
+(use-package ivy
+  :diminish
+  :bind (("C-s" . swiper)
+	 :map ivy-minibuffer-map
+	 ("C-n" . ivy-next-line)
+	 ("C-p" . ivy-previous-line)
+	 :map ivy-switch-buffer-map
+	 ("C-n" . ivy-next-line)
+	 ("C-p" . ivy-previous-line)
+	 ("C-k" . ivy-switch-buffer-kill)
+	 :map ivy-reverse-i-search-map
+	 ("C-n" . ivy-next-line)
+	 ("C-p" . ivy-previous-line)
+	 ("C-k" . ivy-reverse-i-search-kill))
+  :init (ivy-mode 1)
+  :custom
+  (ivy-use-virtual-buffers t)
+  (ivy-wrap t)
+  (ivy-count-format "(%d/%d) ")
+  (enable-recursive-buffers t)
+  :config
+  ;; Set minibuffer height for different commands
+  (setf (alist-get 'counsel-projectile-ag ivy-height-alist) 15)
+  (setf (alist-get 'counsel-projectile-rg ivy-height-alist) 15)
+  (setf (alist-get 'swiper ivy-height-alist) 15)
+  (setf (alist-get 'counsel-switch-buffer ivy-height-alist) 7))
