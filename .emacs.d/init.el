@@ -415,3 +415,6 @@ Ignores `ARGS'."
   "gf" 'magit-fetch
   "gF" 'magit-fetch-all
   "gr" 'magit-rebase)
+
+(use-package forge
+  :after magit)

@@ -770,3 +770,12 @@ well.
     "gr" 'magit-rebase)
 
 #+end_src
+
+*** Forge
+
+    #+begin_src emacs-lisp
+
+      (use-package forge
+        :after magit)
+
+    #+end_src
