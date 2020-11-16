@@ -418,3 +418,9 @@ Ignores `ARGS'."
 
 (use-package forge
   :after magit)
+
+(use-package eglot)
+
+(use-package jedi
+  :ensure-system-package (jedi . "pipx install jedi-language-server")
+  :hook (python-mode . jedi:setup))

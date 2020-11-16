@@ -779,3 +779,26 @@ well.
         :after magit)
 
     #+end_src
+
+** Languages
+
+*** Language Server Support
+
+[[https://github.com/joaotavora/eglot][Eglot]] is a language server protocal client that appears to be easier
+to setup than LSP.
+
+#+begin_src emacs-lisp
+
+  (use-package eglot)
+
+#+end_src
+
+*** Python
+
+    #+begin_src emacs-lisp
+
+      (use-package jedi
+        :ensure-system-package (jedi . "pipx install jedi-language-server")
+        :hook (python-mode . jedi:setup))
+
+    #+end_src
