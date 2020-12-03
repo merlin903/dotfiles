@@ -432,7 +432,82 @@ Ignores `ARGS'."
   (set-face-foreground 'git-gutter:added "LightGoldenrod")
   (set-face-foreground 'git-gutter:added "LightCoral"))
 
-(use-package eglot)
+(use-package projectile
+  :ensure-system-package
+  ((rg . ripgrep)
+   (ag . the_silver_searcher))
+  :diminish projectile-mode
+  :config (projectile-mode)
+  :bind-keymap ("C-c p" . projectile-command-map)
+  :init
+  (when (file-directory-p "~/Development")
+    (setq projectile-project-search-path (cddr (directory-files "~/Development" t))))
+  (setq projectile-switch-project-action #'projectile-dired))
+
+(use-package counsel-projectile
+  :after projectile)
+
+(sa/leader-key-def
+  "pf" 'counsel-projectile-find-file
+  "ps" 'counsel-projectile-switch-project
+  "pF" 'counsel-projectile-rg
+  "pp" 'counsel-projectile
+  "pc" 'projectile-compile-project
+  "pd" 'projectile-dired)
+
+(use-package eglot
+  :disabled t)
+
+(use-package ivy-xref
+  :init (if (< emacs-major-version 27)
+            (setq xref-show-xrefs-function #'ivy-xref-show-xrefs)
+          (setq xref-show-definitions-function #'ivy-xref-show-defs)))
+
+(use-package lsp-mode
+  :commands lsp
+  :hook ((typescript-mode js2-mode web-mode) . lsp)
+  :bind (:map lsp-mode-map
+              ("TAB" . completion-at-point)))
+
+(sa/leader-key-def
+  "l" '(:ignore t :which-key "lsp")
+  "ld" 'xref-find-definitions
+  "lr" 'xref-find-references
+  "ln" 'lsp-ui-find-next-reference
+  "lp" 'lsp-ui-find-pref-reference
+  "ls" 'counsel-imenu
+  "le" 'lsp-ui-flycheck-list
+  "lS" 'lsp-ui-sideline-mode
+  "lX" 'lsp-execute-code-action)
+
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode)
+  :config
+  (setq lsp-ui-sideline-enable t
+        lsp-ui-sideline-show-hover nil
+        lsp-ui-doc-position 'bottom)
+  (lsp-ui-doc-show))
+
+(use-package nvm
+  :defer t)
+
+(use-package typescript-mode
+  :mode "\\.ts\\'")
+
+(use-package js2-mode
+  :mode "\\.jsx?\\'"
+  :config
+  (add-to-list 'magic-mode-alist '("#!/usr/bin/env node" . js2-mode))
+
+  ;; Don't use built-in syntax checking
+  (setq js2-mode-show-strict-warnings nil))
+
+(use-package prettier-js
+  :disabled t
+  :hook ((js2-mode . prettier-js-mode)
+         (typescript-mode . prettier-js-mode))
+  :config
+  (setq prettier-js-show-errors nil))
 
 (use-package jedi
   :ensure-system-package (jedi . "pipx install jedi-language-server")
