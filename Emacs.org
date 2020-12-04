@@ -1,17 +1,17 @@
 #+TITLE: Emacs Configuration
 #+PROPERTY: header-args:emacs-lisp :tangle ./.emacs.d/init.el
 * Table of Contents
-:PROPERTIES:
-:TOC: :include all :ignore this
-:END:
-:CONTENTS:
-:END:
+  :PROPERTIES:
+  :TOC:      :include all :ignore this
+  :END:
+  :CONTENTS:
+  :END:
 
 * Startup
 
-Make startup faster by reducing the frequency of garbage collection and then use a hook to measure Emacs startup time.
+  Make startup faster by reducing the frequency of garbage collection and then use a hook to measure Emacs startup time.
 
-#+begin_src emacs-lisp
+  #+begin_src emacs-lisp
 
   ;; The default is 800 kilobytes.  Measured in bytes.
   (setq gc-cons-threshold (* 50 1000 1000))
@@ -25,13 +25,13 @@ Make startup faster by reducing the frequency of garbage collection and then use
 				(time-subtract after-init-time before-init-time)))
 		       gcs-done)))
 
-#+end_src
+  #+end_src
 
 * System Settings
 
-Some parts of the configuration require knowledge of whether Emacs is running on a Mac, or in iSH on iPhone.
+  Some parts of the configuration require knowledge of whether Emacs is running on a Mac, or in iSH on iPhone.
 
-#+begin_src emacs-lisp
+  #+begin_src emacs-lisp
 
   (if (file-exists-p "~/.emacs.d/per-system-settings.el")
       (load-file "~/.emacs.d/per-system-settings.el"))
@@ -48,13 +48,13 @@ Some parts of the configuration require knowledge of whether Emacs is running on
   (setq sa/is-darwin
 	(string-match-p (regexp-quote "Darwin") (string-trim (shell-command-to-string "uname -a"))))
 
-#+end_src
+  #+end_src
 
 * Keeping .emacs.d Clean
 
-I don't want a bunch of transient files showing up as untracked in the Git repo so I move them all to another location.
+  I don't want a bunch of transient files showing up as untracked in the Git repo so I move them all to another location.
 
-#+begin_src emacs-lisp
+  #+begin_src emacs-lisp
 
   ;; Keep transient cruft out of ~/.emacs.d
   (setq user-emacs-directory "~/.cache/emacs/"
@@ -70,15 +70,15 @@ I don't want a bunch of transient files showing up as untracked in the Git repo 
 	  (expand-file-name (format "emacs-custom-%s.el" (user-uid)) temporary-file-directory)))
   (load custom-file t)
 
-#+end_src
+  #+end_src
 
 * Package Managment
 
 ** =use-package=
 
-Set up ELPA, MELPA, and Org package repos and load =use-package= to manage package configuration.
+   Set up ELPA, MELPA, and Org package repos and load =use-package= to manage package configuration.
 
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 
   ;; Initialize package sources
   (require 'package)
@@ -112,23 +112,23 @@ Set up ELPA, MELPA, and Org package repos and load =use-package= to manage packa
   ;; Ensure packages by default
   (setq use-package-always-ensure t)
 
-#+end_src
+   #+end_src
 
 ** System Packages
 
-Some packages require executables be available on the system. Using =use-package-ensure-system-package=, we can automatically install the missing executable using the proper package manager for the OS.
+   Some packages require executables be available on the system. Using =use-package-ensure-system-package=, we can automatically install the missing executable using the proper package manager for the OS.
 
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 
 (use-package use-package-ensure-system-package)
 
-#+end_src
+   #+end_src
 
 * Update Load Path
 
-Add a custom folder for any custom elisp we might need in the future
+  Add a custom folder for any custom elisp we might need in the future
 
-#+begin_src emacs-lisp
+  #+begin_src emacs-lisp
 
   ;; Add my elisp path to load-path
   (push "~/.emacs.d/elisp" load-path)
@@ -136,15 +136,15 @@ Add a custom folder for any custom elisp we might need in the future
   ;; Add /usr/local/bin to exec-path
   (push "/usr/local/bin" exec-path)
 
-#+end_src
+  #+end_src
 
 * Helper Functions
 
 ** Platform Helpers
 
-Here are a couple helpful functions for doing things based on what platform Emacs is running on. Borrowed from [[https://github.com/daviwil/dotfiles/][=daviwil/dotfiles=]].
+   Here are a couple helpful functions for doing things based on what platform Emacs is running on. Borrowed from [[https://github.com/daviwil/dotfiles/][=daviwil/dotfiles=]].
 
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 
   (defun platform-keyword-to-string (platform-keyword)
     "Helper function for changing OS platform keywords to system-type strings"
@@ -170,36 +170,36 @@ Here are a couple helpful functions for doing things based on what platform Emac
 	       ,expr)))
 	 platform-expressions)))
 
-#+end_src
+   #+end_src
 
 ** Temporary Packages (try)
 
-=try= let's us /try/ a package without adding it to our
-configuration. Great for those times when you need a one-off mode.
+   =try= let's us /try/ a package without adding it to our
+   configuration. Great for those times when you need a one-off mode.
 
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 
   (use-package try)
 
-#+end_src
+   #+end_src
 
 * Server Mode
 
-Start the Emacs server from this instance so that all =emacsclient= calls are routed here.
+  Start the Emacs server from this instance so that all =emacsclient= calls are routed here.
 
-#+begin_src emacs-lisp
+  #+begin_src emacs-lisp
 
 (server-start)
 
-#+end_src
+  #+end_src
 
 * Keybindings
 
 ** Keybinding Panel (which-key)
 
- [[https://github.com/justbur/emacs-which-key][=which-key=]] is great for getting an overview of what keybindings are available based on the prefix keys you entered.
+   [[https://github.com/justbur/emacs-which-key][=which-key=]] is great for getting an overview of what keybindings are available based on the prefix keys you entered.
 
- #+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 
    (use-package which-key
      :init (which-key-mode)
@@ -207,13 +207,13 @@ Start the Emacs server from this instance so that all =emacsclient= calls are ro
      :config
      (setq which-key-idle-delay 0.3))
 
- #+end_src
+   #+end_src
 
 ** Simplify Leader Bindings (general.el)
 
- =general.el= is a fantastic library for defining prefixed keybindings, especially in conjunction with Evil modes.
+   =general.el= is a fantastic library for defining prefixed keybindings, especially in conjunction with Evil modes.
 
- #+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 
    (use-package general
      :config
@@ -223,15 +223,15 @@ Start the Emacs server from this instance so that all =emacsclient= calls are ro
      (general-create-definer sa/ctrl-c-keys
        :prefix "C-c"))
 
- #+end_src
+   #+end_src
 
 * General Configuration
 
 ** User Interface
 
-Clean up Emacs' user interface, and make it more minimal
+   Clean up Emacs' user interface, and make it more minimal
 
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 
   ;; Disable the startup message
   (setq inhibit-startup-message t)
@@ -246,11 +246,11 @@ Clean up Emacs' user interface, and make it more minimal
 
   (setq visible-bell t)			; Set up the visible bell
 
-#+end_src
+   #+end_src
 
-Improve scrolling
+   Improve scrolling
 
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 
   (unless sa/is-ish
     (setq mouse-wheel-scroll-amount
@@ -260,21 +260,21 @@ Improve scrolling
     (setq mouse-wheel-follow-mouse 't)	; Scroll window under mouse
     (setq scroll-step 1))		; Keyboard scroll one line at a time
 
-#+end_src
+   #+end_src
 
-Maximize windows by default
+   Maximize windows by default
 
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 
   (unless sa/is-ish
     (set-frame-parameter (selected-frame) 'fullscreen 'maximized)
     (add-to-list 'default-frame-alist '(fullscreen . maximized)))
 
-#+end_src
+   #+end_src
 
-Enable line numbers and customize their format
+   Enable line numbers and customize their format
 
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 
   (column-number-mode)
 
@@ -288,55 +288,55 @@ Enable line numbers and customize their format
   (dolist (mode '(org-mode-hook))
     (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
-#+end_src
+   #+end_src
 
-Don't warn for large files
+   Don't warn for large files
 
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 
   (setq large-file-warning-threshold nil)
 
-#+end_src
+   #+end_src
 
-Don't warn when following symlinked files
+   Don't warn when following symlinked files
 
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 
   (setq vc-follow-symlinks t)
 
-#+end_src
+   #+end_src
 
-Don't warn when advice is added for functions
+   Don't warn when advice is added for functions
 
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 
   (setq ad-redefinition-action 'accept)
 
-#+end_src
+   #+end_src
 
 ** Theme
 
-[[https://github.com/hlissner/emacs-doom-themes][Doom Themes]] is a good collection of some nicely designed themes, which integrate well with many Emacs packages.
+   [[https://github.com/hlissner/emacs-doom-themes][Doom Themes]] is a good collection of some nicely designed themes, which integrate well with many Emacs packages.
 
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 
-  (use-package doom-themes
-    :config
-    (unless sa/is-ish
-      (load-theme 'doom-solarized-dark)
-      (doom-themes-visual-bell-config))
-    (unless sa/is-darwin
-      (load-theme 'misterioso)))
+     (use-package doom-themes
+       :config
+       (unless sa/is-ish
+         (load-theme 'doom-solarized-dark)
+         (doom-themes-visual-bell-config))
+       (unless sa/is-darwin
+         (load-theme 'misterioso)))
 
-#+end_src
+   #+end_src
 
 ** Fonts
 
 *** Set the font
 
-Different platforms need different default font sizes.
+    Different platforms need different default font sizes.
 
-#+begin_src emacs-lisp
+    #+begin_src emacs-lisp
 
   (unless sa/is-ish
     (on-platform-do
@@ -344,11 +344,11 @@ Different platforms need different default font sizes.
      (osx (set-face-attribute 'default nil :font "JetBrains Mono" :height 140))
      (linux (set-face-attribute 'default nil :font "JetBrains Mono" :height 220))))
 
-#+end_src
+    #+end_src
 
 *** TODO Enable proper Unicode glyph support
 
-#+begin_src emacs-lisp
+    #+begin_src emacs-lisp
 
   ;; (defun sa/replace-unicode-font-mapping (block-name old-font new-font)
   ;;   (let* ((block-idx (cl-position-if
@@ -374,38 +374,38 @@ Different platforms need different default font sizes.
   ;;      "Transport and Map Symbols"))
   ;;   (unicode-fonts-setup))
 
-#+end_src
+    #+end_src
 
 *** TODO Emojis in buffers
 
-#+begin_src emacs-lisp
+    #+begin_src emacs-lisp
 
   ;; (use-package emojify
   ;;   :hook (erc-mode . emojify-mode)
   ;;   :commands emojify-mode)
 
-#+end_src
+    #+end_src
 
 ** Mode Line
 
 *** Basic Customization
 
-#+begin_src emacs-lisp
+    #+begin_src emacs-lisp
 
   (setq display-time-format "%l:%M %p %b %y"
 	display-time-default-load-average nil)
 
-#+end_src
+    #+end_src
 
 *** Enable Mode Diminishing
 
-The [[https://github.com/myrjola/diminish.el][=diminish=]] package hides pesky minor modes from the mode line
+    The [[https://github.com/myrjola/diminish.el][=diminish=]] package hides pesky minor modes from the mode line
 
-#+begin_src emacs-lisp
+    #+begin_src emacs-lisp
 
   (use-package diminish)
 
-#+end_src
+    #+end_src
 
 *** Doom Modeline
 
@@ -432,9 +432,9 @@ The [[https://github.com/myrjola/diminish.el][=diminish=]] package hides pesky m
 
 ** Notifications
 
-Use =alert= to show notifications from other packages.
+   Use =alert= to show notifications from other packages.
 
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 
   (use-package alert
     :commands alert
@@ -442,7 +442,7 @@ Use =alert= to show notifications from other packages.
     :config
     (setq alert-default-style 'growl))
 
-#+end_src
+   #+end_src
 
 ** Auto-Reverting Changed Files
 
@@ -472,11 +472,11 @@ Use =alert= to show notifications from other packages.
 
 ** Display World Time
 
-=display-world-time= command provides a nice display of the time at a
-specified list of timezones. Nice for working in a team with remote
-members.
+   =display-world-time= command provides a nice display of the time at a
+   specified list of timezones. Nice for working in a team with remote
+   members.
 
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 
   (setq display-time-world-list
 	'(("America/Los_Angeles" "Los Angeles")
@@ -484,14 +484,14 @@ members.
 	  ("America/New_York" "New York")))
   (setq display-time-world-time-format "%a, %d %b %I:%M %p %Z")
 
-#+end_src
+   #+end_src
 
 ** Pinentry
 
-Emacs can be prompted for the PIN of GPG private keys, we just need to
-set =peg-pinentry-mode= to accomplish that:
+   Emacs can be prompted for the PIN of GPG private keys, we just need to
+   set =peg-pinentry-mode= to accomplish that:
 
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 
   (use-package pinentry
     :ensure-system-package gpg
@@ -500,7 +500,7 @@ set =peg-pinentry-mode= to accomplish that:
     :init
     (pinentry-start))
 
-#+end_src
+   #+end_src
 
 ** TRAMP
 
@@ -512,19 +512,19 @@ set =peg-pinentry-mode= to accomplish that:
 
 ** EditorConfig
 
-=EditorConfig= tells different editors how to format code in a
-cross-editor way.
+   =EditorConfig= tells different editors how to format code in a
+   cross-editor way.
 
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 
   (use-package editorconfig
     :ensure-system-package editorconfig
     :config
     (editorconfig-mode 1))
 
-#+end_src
+   #+end_src
 
-#+begin_src ini :tangle ./.editorconfig
+   #+begin_src ini :tangle ./.editorconfig
 
   # EditorConfig helps developers define and maintain consistent
   # coding styles between different editors and IDEs.
@@ -546,7 +546,7 @@ cross-editor way.
   [*.md]
   trim_trailing_whitespace = false
 
-#+end_src
+   #+end_src
 
 ** Parinfer for Lispy Languages
 
@@ -626,20 +626,20 @@ cross-editor way.
 
 * Better Completions with Ivy
 
-Ivy, Counsel, and Swiper allow me to navigate around quicker than
-Emacs alone.
+  Ivy, Counsel, and Swiper allow me to navigate around quicker than
+  Emacs alone.
 
-+ While in an Ivy minibuffer, you can search within the current
-  results by using =S-SPC=
-+ To quickly jump to an item in the minibuffer, use =C-'= to get Avy
-  line jump keys
-+ To see actions for the selected minibuffer item, use =M-o= and then
-  press the action's key
-+ *Super useful* Use =C-c C-o= to open =ivy-occur= to open the results
-  in a separate buffer. From there you can click any item to perform
-  the ivy action
+  + While in an Ivy minibuffer, you can search within the current
+    results by using =S-SPC=
+  + To quickly jump to an item in the minibuffer, use =C-'= to get Avy
+    line jump keys
+  + To see actions for the selected minibuffer item, use =M-o= and then
+    press the action's key
+  + *Super useful* Use =C-c C-o= to open =ivy-occur= to open the results
+    in a separate buffer. From there you can click any item to perform
+    the ivy action
 
-#+begin_src emacs-lisp
+  #+begin_src emacs-lisp
 
   (use-package counsel
     :diminish
@@ -711,15 +711,15 @@ Emacs alone.
     "fR" '(revert-buffer :which-key "revert file")
     "fj" '(counsel-file-jump :which-key "jump to file"))
 
-#+end_src
+  #+end_src
 
 * Webkit
 
-My Emacs is configured with the Webkit XWidget, but it's a little
-difficult to remember the keys for everything, so I'm making it easier
-on me, using my leader key.
+  My Emacs is configured with the Webkit XWidget, but it's a little
+  difficult to remember the keys for everything, so I'm making it easier
+  on me, using my leader key.
 
-#+begin_src emacs-lisp
+  #+begin_src emacs-lisp
 
   (use-package xwidget
     :custom
@@ -732,21 +732,21 @@ on me, using my leader key.
       "Override `browse-url-default-browser' to use `xwidget-webkit' URL ARGS."
       (xwidget-webkit-browse-url url args)))
 
-#+end_src
+  #+end_src
 
 * Development
 
-Configuration for programming languages and tools.
+  Configuration for programming languages and tools.
 
 ** Git
 
 *** Magit
 
-[[https://magit.vc/manual/magit/][Magit]] is an interface to Git. It makes things easier than using the
-command line, and when combined with [[https://magit.vc/manual/forge/][Forge]], integrates with Github as
-well.
+    [[https://magit.vc/manual/magit/][Magit]] is an interface to Git. It makes things easier than using the
+    command line, and when combined with [[https://magit.vc/manual/forge/][Forge]], integrates with Github as
+    well.
 
-#+begin_src emacs-lisp
+    #+begin_src emacs-lisp
 
   (use-package magit
     :commands (magit-status magit-get-current-branch)
@@ -769,7 +769,7 @@ well.
     "gF" 'magit-fetch-all
     "gr" 'magit-rebase)
 
-#+end_src
+    #+end_src
 
 *** Forge
 
@@ -835,88 +835,94 @@ well.
 *** Language Server Support
 
 **** Eglot (disabled)
-[[https://github.com/joaotavora/eglot][Eglot]] is a language server protocal client that appears to be easier
-to setup than LSP.
+     [[https://github.com/joaotavora/eglot][Eglot]] is a language server protocal client that appears to be easier
+     to setup than LSP.
 
-#+begin_src emacs-lisp
+     #+begin_src emacs-lisp
 
   (use-package eglot
     :disabled t)
 
-#+end_src
+     #+end_src
 
 **** LSP
 
-Used Eglot at first, but switching to LSP to use =dap-mode=
+     Used Eglot at first, but switching to LSP to use =dap-mode=
 
-#+begin_src emacs-lisp
+     #+begin_src emacs-lisp
 
-  (use-package ivy-xref
-    :init (if (< emacs-major-version 27)
-              (setq xref-show-xrefs-function #'ivy-xref-show-xrefs)
-            (setq xref-show-definitions-function #'ivy-xref-show-defs)))
+       (use-package ivy-xref
+         :init (if (< emacs-major-version 27)
+                   (setq xref-show-xrefs-function #'ivy-xref-show-xrefs)
+                 (setq xref-show-definitions-function #'ivy-xref-show-defs)))
 
-  (use-package lsp-mode
-    :commands lsp
-    :hook ((typescript-mode js2-mode web-mode) . lsp)
-    :bind (:map lsp-mode-map
-                ("TAB" . completion-at-point)))
+       (defun sa/lsp-mode-setup ()
+                          (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+                          (lsp-headerline-breadcrumb-mode))
 
-  (sa/leader-key-def
-    "l" '(:ignore t :which-key "lsp")
-    "ld" 'xref-find-definitions
-    "lr" 'xref-find-references
-    "ln" 'lsp-ui-find-next-reference
-    "lp" 'lsp-ui-find-pref-reference
-    "ls" 'counsel-imenu
-    "le" 'lsp-ui-flycheck-list
-    "lS" 'lsp-ui-sideline-mode
-    "lX" 'lsp-execute-code-action)
+       (use-package lsp-mode
+         :commands (lsp lsp-deferred)
+         :hook (lsp-mode . sa/lsp-mode-setup)
+         :init
+         (setq lsp-keymap-prefix "C-c l")
+         :config
+         (lsp-enable-which-key-integration))
 
-  (use-package lsp-ui
-    :hook (lsp-mode . lsp-ui-mode)
-    :config
-    (setq lsp-ui-sideline-enable t
-          lsp-ui-sideline-show-hover nil
-          lsp-ui-doc-position 'bottom)
-    (lsp-ui-doc-show))
+       (sa/leader-key-def
+         "l" '(:ignore t :which-key "lsp")
+         "ld" 'xref-find-definitions
+         "lr" 'xref-find-references
+         "ln" 'lsp-ui-find-next-reference
+         "lp" 'lsp-ui-find-pref-reference
+         "ls" 'counsel-imenu
+         "le" 'lsp-ui-flycheck-list
+         "lS" 'lsp-ui-sideline-mode
+         "lX" 'lsp-execute-code-action)
 
-#+end_src
+       (use-package lsp-ui
+         :hook (lsp-mode . lsp-ui-mode)
+         :config
+         (setq lsp-ui-sideline-enable t
+               lsp-ui-sideline-show-hover nil
+               lsp-ui-doc-position 'bottom)
+         (lsp-ui-doc-show))
+
+     #+end_src
 
 *** TypeScript and JavaScript
 
-Set up =nvm= so we can manage Node versions
+    Set up =nvm= so we can manage Node versions
 
-#+begin_src emacs-lisp
+    #+begin_src emacs-lisp
 
-  (use-package nvm
-    :defer t)
+      (use-package nvm
+        :defer t)
 
-#+end_src
+    #+end_src
 
-Configure TypeScript and JavaScript language modes
+    Configure TypeScript and JavaScript language modes
 
-#+begin_src emacs-lisp
+    #+begin_src emacs-lisp
 
-  (use-package typescript-mode
-    :mode "\\.ts\\'")
+      (use-package typescript-mode
+        :mode "\\.ts\\'")
 
-  (use-package js2-mode
-    :mode "\\.jsx?\\'"
-    :config
-    (add-to-list 'magic-mode-alist '("#!/usr/bin/env node" . js2-mode))
+      (use-package js2-mode
+        :mode "\\.jsx?\\'"
+        :config
+        (add-to-list 'magic-mode-alist '("#!/usr/bin/env node" . js2-mode))
 
-    ;; Don't use built-in syntax checking
-    (setq js2-mode-show-strict-warnings nil))
+        ;; Don't use built-in syntax checking
+        (setq js2-mode-show-strict-warnings nil))
 
-  (use-package prettier-js
-    :disabled t
-    :hook ((js2-mode . prettier-js-mode)
-           (typescript-mode . prettier-js-mode))
-    :config
-    (setq prettier-js-show-errors nil))
+      (use-package prettier-js
+        :disabled t
+        :hook ((js2-mode . prettier-js-mode)
+               (typescript-mode . prettier-js-mode))
+        :config
+        (setq prettier-js-show-errors nil))
 
-#+end_src
+    #+end_src
 
 *** Python
 
@@ -927,3 +933,76 @@ Configure TypeScript and JavaScript language modes
         :hook (python-mode . jedi:setup))
 
     #+end_src
+
+** Productivity
+
+*** Flycheck
+
+    #+begin_src emacs-lisp
+
+      (use-package flycheck
+        :defer t
+        :hook (lsp-mode . flycheck-mode))
+
+    #+end_src
+
+*** Snippets
+
+    #+begin_src emacs-lisp
+
+      (use-package yasnippet
+        :hook (prog-mdoe . yas-minor-mode)
+        :config
+        (yas-reload-all))
+
+    #+end_src
+
+*** Smart Parens
+
+    #+begin_src emacs-lisp
+
+      (use-package smartparens
+        :hook (prog-mode . smartparens-mode))
+
+    #+end_src
+
+*** Rainbow Delimiters
+
+    #+begin_src emacs-lisp
+
+      (use-package smartparens
+        :hook (prog-mode . smartparens-mode))
+
+    #+end_src
+
+*** Rainbow Mode
+
+    Sets the background of HTML color strings in buffers to be the color mentioned
+
+    #+begin_src emacs-lisp
+
+  (use-package rainbow-mode
+    :defer t
+    :hook (org-mode
+           emacs-lisp-mode
+           web-mode
+           typescript-mode
+           js2-mode))
+
+
+    #+end_src
+
+* Applications
+
+** Slack
+
+   #+begin_src emacs-lisp
+
+     (use-package slack
+       :disabled t
+       :commands (slack-start)
+       :init
+       (setq slack-buffer-emojify t)  ; Enable emojis
+       (setq slack-prefer-current-team t))
+
+   #+end_src

@@ -463,11 +463,17 @@ Ignores `ARGS'."
             (setq xref-show-xrefs-function #'ivy-xref-show-xrefs)
           (setq xref-show-definitions-function #'ivy-xref-show-defs)))
 
+(defun sa/lsp-mode-setup ()
+                   (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+                   (lsp-headerline-breadcrumb-mode))
+
 (use-package lsp-mode
-  :commands lsp
-  :hook ((typescript-mode js2-mode web-mode) . lsp)
-  :bind (:map lsp-mode-map
-              ("TAB" . completion-at-point)))
+  :commands (lsp lsp-deferred)
+  :hook (lsp-mode . sa/lsp-mode-setup)
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :config
+  (lsp-enable-which-key-integration))
 
 (sa/leader-key-def
   "l" '(:ignore t :which-key "lsp")
@@ -512,3 +518,33 @@ Ignores `ARGS'."
 (use-package jedi
   :ensure-system-package (jedi . "pipx install jedi-language-server")
   :hook (python-mode . jedi:setup))
+
+(use-package flycheck
+  :defer t
+  :hook (lsp-mode . flycheck-mode))
+
+(use-package yasnippet
+  :hook (prog-mdoe . yas-minor-mode)
+  :config
+  (yas-reload-all))
+
+(use-package smartparens
+  :hook (prog-mode . smartparens-mode))
+
+(use-package smartparens
+  :hook (prog-mode . smartparens-mode))
+
+(use-package rainbow-mode
+  :defer t
+  :hook (org-mode
+         emacs-lisp-mode
+         web-mode
+         typescript-mode
+         js2-mode))
+
+(use-package slack
+  :disabled t
+  :commands (slack-start)
+  :init
+  (setq slack-buffer-emojify t)  ; Enable emojis
+  (setq slack-prefer-current-team t))
