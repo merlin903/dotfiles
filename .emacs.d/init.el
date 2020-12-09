@@ -167,7 +167,7 @@ Ignores `ARGS'."
 (use-package doom-themes
   :config
   (unless sa/is-ish
-    (load-theme 'doom-solarized-dark)
+    (load-theme 'doom-solarized-dark t)
     (doom-themes-visual-bell-config))
   (unless sa/is-darwin
     (load-theme 'misterioso)))
