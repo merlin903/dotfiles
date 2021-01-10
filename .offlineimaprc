@@ -1,0 +1,25 @@
+[general]
+accounts = SteveAtHTB
+pythonfile = ~/Development/sametjan/dotfiles/.bin/offlineimap.py
+fsync = False
+
+[Account SteveAtHTB]
+localrepository = SteveAtHTB-Local
+remoterepository = SteveAtHTB-Remote
+# status_backend = sqlite
+
+[Repository SteveAtHTB-Local]
+type = Maildir
+localfolders = ~/Mail/SteveAtHTB
+
+[Repository SteveAtHTB-Remote]
+type = IMAP
+remotehost = imap.dreamhost.com
+remoteuser = steve@hittingthebottle.com
+remotepasseval = get_keychain_pass(account="steve@hittingthebottle.com", server="imap.dreamhost.com")
+remoteport = 993
+auth_mechanisms = GSSAPI, CRAM-MD5, PLAIN, LOGIN
+ssl = yes
+ssl_version = tls1_2
+sslcacertfile = /etc/static/ssl/certs/ca-certificates.crt
+realdelete = no

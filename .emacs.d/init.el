@@ -13,17 +13,17 @@
 (if (file-exists-p "~/.emacs.d/per-system-settings.el")
     (load-file "~/.emacs.d/per-system-settings.el"))
 
-(defvar sa/is-ish nil
-  "Determine if current system is iSH shell on an iPhone.")
-(defvar sa/is-darwin nil
-  "Determine if current system is Darwin based.")
+;; (defvar sa/is-ish nil
+;;   "Determine if current system is iSH shell on an iPhone.")
+;; (defvar sa/is-darwin nil
+;;   "Determine if current system is Darwin based.")
 
-(require 'subr-x)
-(setq sa/is-ish
-      (string-match-p (regexp-quote "iSH") (string-trim (shell-command-to-string "uname -a"))))
+;; (require 'subr-x)
+;; (setq sa/is-ish
+;;       (string-match-p (regexp-quote "iSH") (string-trim (shell-command-to-string "uname -a"))))
 
-(setq sa/is-darwin
-      (string-match-p (regexp-quote "Darwin") (string-trim (shell-command-to-string "uname -a"))))
+;; (setq sa/is-darwin
+;;       (string-match-p (regexp-quote "Darwin") (string-trim (shell-command-to-string "uname -a"))))
 
 ;; Keep transient cruft out of ~/.emacs.d
 (setq user-emacs-directory "~/.cache/emacs/"
@@ -71,7 +71,7 @@ Ignores `ARGS'."
 ;; Ensure packages by default
 (setq use-package-always-ensure t)
 
-(use-package use-package-ensure-system-package)
+;; (use-package use-package-ensure-system-package)
 
 ;; Add my elisp path to load-path
 (push "~/.emacs.d/elisp" load-path)
@@ -79,33 +79,33 @@ Ignores `ARGS'."
 ;; Add /usr/local/bin to exec-path
 (push "/usr/local/bin" exec-path)
 
-(defun platform-keyword-to-string (platform-keyword)
-  "Helper function for changing OS platform keywords to system-type strings"
-  (cond
-   ((eq platform-keyword 'widnows) "windows-nt")
-   ((eq platform-keyword 'cygwin) "cygwin")
-   ((eq platform-keyword 'osx) "darwin")
-   ((eq platform-keyword 'linux) "gnu/linux")))
+;; (defun platform-keyword-to-string (platform-keyword)
+;;   "Helper function for changing OS platform keywords to system-type strings"
+;;   (cond
+;;    ((eq platform-keyword 'widnows) "windows-nt")
+;;    ((eq platform-keyword 'cygwin) "cygwin")
+;;    ((eq platform-keyword 'osx) "darwin")
+;;    ((eq platform-keyword 'linux) "gnu/linux")))
 
-(defmacro on-platform-do (&rest platform-expressions)
-  "Runs an elisp expression only on a particular platform"
-  `(cond
-    ,@(mapcar
-       (lambda (platform-expr)
-	 (let ((keyword (nth 0 platform-expr))
-	       (expr (nth 1 platform-expr)))
-	   `(,(if (listp keyword)
-		  `(or
-		    ,@(mapcar
-		       (lambda (kw) `(string-equal system-type ,(platform-keyword-to-string kw)))
-		       keyword))
-		`(string-equal system-type ,(platform-keyword-to-string keyword)))
-	     ,expr)))
-       platform-expressions)))
+;; (defmacro on-platform-do (&rest platform-expressions)
+;;   "Runs an elisp expression only on a particular platform"
+;;   `(cond
+;;     ,@(mapcar
+;;        (lambda (platform-expr)
+;; 	 (let ((keyword (nth 0 platform-expr))
+;; 	       (expr (nth 1 platform-expr)))
+;; 	   `(,(if (listp keyword)
+;; 		  `(or
+;; 		    ,@(mapcar
+;; 		       (lambda (kw) `(string-equal system-type ,(platform-keyword-to-string kw)))
+;; 		       keyword))
+;; 		`(string-equal system-type ,(platform-keyword-to-string keyword)))
+;; 	     ,expr)))
+;;        platform-expressions)))
 
 (use-package try)
 
-(server-start)
+;; (server-start)
 
 (use-package which-key
   :init (which-key-mode)
@@ -124,27 +124,30 @@ Ignores `ARGS'."
 ;; Disable the startup message
 (setq inhibit-startup-message t)
 
-(unless sa/is-ish
-  (scroll-bar-mode -1)		; Disable visible scrollbar
-  (tool-bar-mode -1)			; Disable the toolbar
-  (tooltip-mode -1)			; Disable tooltips
-  (set-fringe-mode 10))		; Give some breathing room
+;; (unless sa/is-ish
+(scroll-bar-mode -1)		; Disable visible scrollbar
+(tool-bar-mode -1)			; Disable the toolbar
+(tooltip-mode -1)			; Disable tooltips
+(set-fringe-mode 10)		; Give some breathing room
+;; )
 
 (menu-bar-mode -1)			; Disable the menu bar
 
 (setq visible-bell t)			; Set up the visible bell
 
-(unless sa/is-ish
-  (setq mouse-wheel-scroll-amount
-	'(1 ((shift) . 1)))		; One line at a time
-  (setq mouse-wheel-progressive-speed
-	nil)				; Don't accelerate scrolling
-  (setq mouse-wheel-follow-mouse 't)	; Scroll window under mouse
-  (setq scroll-step 1))		; Keyboard scroll one line at a time
+;; (unless sa/is-ish
+(setq mouse-wheel-scroll-amount
+      '(1 ((shift) . 1)))		; One line at a time
+(setq mouse-wheel-progressive-speed
+      nil)				; Don't accelerate scrolling
+(setq mouse-wheel-follow-mouse 't)	; Scroll window under mouse
+(setq scroll-step 1)		; Keyboard scroll one line at a time
+;; )
 
-(unless sa/is-ish
+;; (unless sa/is-ish
   (set-frame-parameter (selected-frame) 'fullscreen 'maximized)
-  (add-to-list 'default-frame-alist '(fullscreen . maximized)))
+  (add-to-list 'default-frame-alist '(fullscreen . maximized))
+;; )
 
 (column-number-mode)
 
@@ -166,17 +169,20 @@ Ignores `ARGS'."
 
 (use-package doom-themes
   :config
-  (unless sa/is-ish
+  ;; (unless sa/is-ish
     (load-theme 'doom-solarized-dark t)
-    (doom-themes-visual-bell-config))
-  (unless sa/is-darwin
-    (load-theme 'misterioso)))
+    (doom-themes-visual-bell-config)
+  ;;   )
+  ;; (unless sa/is-darwin
+  ;;   (load-theme 'misterioso)
+  ;;   )
+  )
 
-(unless sa/is-ish
-  (on-platform-do
-   ((windows cygwin) (set-face-attribute 'default nil :font "JetBrains Mono:antialias=subpixel" :height 130))
-   (osx (set-face-attribute 'default nil :font "JetBrains Mono" :height 140))
-   (linux (set-face-attribute 'default nil :font "JetBrains Mono" :height 220))))
+;; (unless sa/is-ish
+;;   (on-platform-do
+;;    ((windows cygwin) (set-face-attribute 'default nil :font "JetBrains Mono:antialias=subpixel" :height 130))
+;;    (osx (set-face-attribute 'default nil :font "JetBrains Mono" :height 140))
+;;    (linux (set-face-attribute 'default nil :font "JetBrains Mono" :height 220))))
 
 ;; (defun sa/replace-unicode-font-mapping (block-name old-font new-font)
 ;;   (let* ((block-idx (cl-position-if
@@ -206,10 +212,10 @@ Ignores `ARGS'."
 ;;   :hook (erc-mode . emojify-mode)
 ;;   :commands emojify-mode)
 
-(setq display-time-format "%l:%M %p %b %y"
-      display-time-default-load-average nil)
+;; (setq display-time-format "%l:%M %p %b %y"
+;;       display-time-default-load-average nil)
 
-(use-package diminish)
+;; (use-package diminish)
 
 (use-package minions
   :hook (doom-modeline-mode . minions-mode))
@@ -228,323 +234,323 @@ Ignores `ARGS'."
   (doom-modeline-buffer-file-name-style 'truncate-except-project)
   (doom-modeline-major-mode-icon t))
 
-(use-package alert
-  :commands alert
-  :ensure-system-package growlnotify
-  :config
-  (setq alert-default-style 'growl))
+;; (use-package alert
+;;   :commands alert
+;;   :ensure-system-package growlnotify
+;;   :config
+;;   (setq alert-default-style 'growl))
 
-(global-auto-revert-mode 1)
+;; (global-auto-revert-mode 1)
 
-(sa/leader-key-def
-  "t" '(:ignore t :which-key "toggles")
-  "tw" 'whitespace-mode
-  "tt" '(counsel-load-theme :which-key "choose theme"))
+;; (sa/leader-key-def
+;;   "t" '(:ignore t :which-key "toggles")
+;;   "tw" 'whitespace-mode
+;;   "tt" '(counsel-load-theme :which-key "choose theme"))
 
-(use-package paren
-  :config (show-paren-mode 1))
+;; (use-package paren
+;;   :config (show-paren-mode 1))
 
-(setq display-time-world-list
-      '(("America/Los_Angeles" "Los Angeles")
-	("America/Mexico_City" "Mexico City")
-	("America/New_York" "New York")))
-(setq display-time-world-time-format "%a, %d %b %I:%M %p %Z")
+;; (setq display-time-world-list
+;;       '(("America/Los_Angeles" "Los Angeles")
+;; 	("America/Mexico_City" "Mexico City")
+;; 	("America/New_York" "New York")))
+;; (setq display-time-world-time-format "%a, %d %b %I:%M %p %Z")
 
-(use-package pinentry
-  :ensure-system-package gpg
-  :custom
-  (epg-pinentry-mode 'loopback)
-  :init
-  (pinentry-start))
+;; (use-package pinentry
+;;   :ensure-system-package gpg
+;;   :custom
+;;   (epg-pinentry-mode 'loopback)
+;;   :init
+;;   (pinentry-start))
 
-(setq tramp-default-method "ssh")
+;; (setq tramp-default-method "ssh")
 
-(use-package editorconfig
-  :ensure-system-package editorconfig
-  :config
-  (editorconfig-mode 1))
+;; (use-package editorconfig
+;;   :ensure-system-package editorconfig
+;;   :config
+;;   (editorconfig-mode 1))
 
-(use-package parinfer
-  :hook ((clojure-mode . parinfer-mode)
-	 (emacs-lisp-mode . parinfer-mode)
-	 (common-lisp-mode . parinfer-mode)
-	 (scheme-mode . parinfer-mode)
-	 (lisp-mode . parinfer-mode))
-  :config
-  (setq parinfer-extensions
-	'(defaults      ; should be included
-	   pretty-parens    ; different paren styles for different modes
-	   smart-tab      ; C-b & C-f jump positions and smart shift with tab & S-tab
-	   smart-yank)))    ; Yank behavior depends on mode
+;; (use-package parinfer
+;;   :hook ((clojure-mode . parinfer-mode)
+;; 	 (emacs-lisp-mode . parinfer-mode)
+;; 	 (common-lisp-mode . parinfer-mode)
+;; 	 (scheme-mode . parinfer-mode)
+;; 	 (lisp-mode . parinfer-mode))
+;;   :config
+;;   (setq parinfer-extensions
+;; 	'(defaults      ; should be included
+;; 	   pretty-parens    ; different paren styles for different modes
+;; 	   smart-tab      ; C-b & C-f jump positions and smart shift with tab & S-tab
+;; 	   smart-yank)))    ; Yank behavior depends on mode
 
-(sa/leader-key-def
-  "tp" 'parinfer-toggle-mode)
+;; (sa/leader-key-def
+;;   "tp" 'parinfer-toggle-mode)
 
-(defun sa/org-file-jump-to-heading (org-file heading-title)
-  "Jump to a specific heading in an Org file"
-  (interactive)
-  (find-file (expand-file-name org-file))
-  (goto-char (point-min))
-  (search-forward (concat "* " heading-title))
-  (org-overview)
-  (org-reveal)
-  (org-show-subtree)
-  (forward-line))
+;; (defun sa/org-file-jump-to-heading (org-file heading-title)
+;;   "Jump to a specific heading in an Org file"
+;;   (interactive)
+;;   (find-file (expand-file-name org-file))
+;;   (goto-char (point-min))
+;;   (search-forward (concat "* " heading-title))
+;;   (org-overview)
+;;   (org-reveal)
+;;   (org-show-subtree)
+;;   (forward-line))
 
-(defun sa/org-file-show-headings (org-file)
-  "Show headings in an Org file"
-  (interactive)
-  (find-file (expand-file-name org-file))
-  (counsel-org-goto)
-  (org-overview)
-  (org-reveal)
-  (org-show-subtree)
-  (forward-line))
+;; (defun sa/org-file-show-headings (org-file)
+;;   "Show headings in an Org file"
+;;   (interactive)
+;;   (find-file (expand-file-name org-file))
+;;   (counsel-org-goto)
+;;   (org-overview)
+;;   (org-reveal)
+;;   (org-show-subtree)
+;;   (forward-line))
 
-(sa/leader-key-def
-  "f" '(:ignore t :which-key "files")
-  "fb" '((lambda () (interactive) (counsel-find-file "~/Documents/OrgFiles/")) :which-key "beorg")
-  "fd" '(:ignore t :which-key "dotfiles")
-  "fdd" '((lambda () (interactive) (find-file "~/Development/sametjan/dotfiles/Desktop.org")) :which-key "desktop")
-  "fde" '((lambda () (interactive) (find-file (expand-file-name "~/Development/sametjan/dotfiles/Emacs.org"))) :which-key "edit config")
-  "fdE" '((lambda () (interactive) (sa/org-file-show-headings "~/Development/sametjan/dotfiles/Emacs.org")) :which-key "edit config")
-  "fds" '((lambda () (interactive) (sa/org-file-jump-to-heading "~/Development/sametjan/Systems.org" "Base Configuration")) :which-key "base system")
-  "fdS" '((lambda () (interactive) (sa/org-file-jump-to-heading "~/Development/sametjan/Systems.org" system-name)) :which-key "this system"))
+;; (sa/leader-key-def
+;;   "f" '(:ignore t :which-key "files")
+;;   "fb" '((lambda () (interactive) (counsel-find-file "~/Documents/OrgFiles/")) :which-key "beorg")
+;;   "fd" '(:ignore t :which-key "dotfiles")
+;;   "fdd" '((lambda () (interactive) (find-file "~/Development/sametjan/dotfiles/Desktop.org")) :which-key "desktop")
+;;   "fde" '((lambda () (interactive) (find-file (expand-file-name "~/Development/sametjan/dotfiles/Emacs.org"))) :which-key "edit config")
+;;   "fdE" '((lambda () (interactive) (sa/org-file-show-headings "~/Development/sametjan/dotfiles/Emacs.org")) :which-key "edit config")
+;;   "fds" '((lambda () (interactive) (sa/org-file-jump-to-heading "~/Development/sametjan/Systems.org" "Base Configuration")) :which-key "base system")
+;;   "fdS" '((lambda () (interactive) (sa/org-file-jump-to-heading "~/Development/sametjan/Systems.org" system-name)) :which-key "this system"))
 
-(use-package hydra
-  :defer 1)
+;; (use-package hydra
+;;   :defer 1)
 
-(use-package counsel
-  :diminish
-  :bind (("M-x" . counsel-M-x)
-         ("C-x b" . counsel-ibuffer)
-         ("C-x C-f" . counsel-find-file)
-         ("C-M-l" . counsel-imenu)
-         :map minibuffer-local-map
-         ("C-r" . 'counsel-minibuffer-history)))
+;; (use-package counsel
+;;   :diminish
+;;   :bind (("M-x" . counsel-M-x)
+;;          ("C-x b" . counsel-ibuffer)
+;;          ("C-x C-f" . counsel-find-file)
+;;          ("C-M-l" . counsel-imenu)
+;;          :map minibuffer-local-map
+;;          ("C-r" . 'counsel-minibuffer-history)))
 
-(use-package ivy
-  :diminish
-  :bind (("C-s" . swiper)
-         :map ivy-minibuffer-map
-         ("C-n" . ivy-next-line)
-         ("C-p" . ivy-previous-line)
-         :map ivy-switch-buffer-map
-         ("C-n" . ivy-next-line)
-         ("C-p" . ivy-previous-line)
-         ("C-k" . ivy-switch-buffer-kill)
-         :map ivy-reverse-i-search-map
-         ("C-n" . ivy-next-line)
-         ("C-p" . ivy-previous-line)
-         ("C-k" . ivy-reverse-i-search-kill))
-  :init (ivy-mode 1)
-  :custom
-  (ivy-use-virtual-buffers t)
-  (ivy-wrap t)
-  (ivy-count-format "(%d/%d) ")
-  (enable-recursive-buffers t)
-  :config
-  ;; Set minibuffer height for different commands
-  (setf (alist-get 'counsel-projectile-ag ivy-height-alist) 15)
-  (setf (alist-get 'counsel-projectile-rg ivy-height-alist) 15)
-  (setf (alist-get 'swiper ivy-height-alist) 15)
-  (setf (alist-get 'counsel-switch-buffer ivy-height-alist) 7))
+;; (use-package ivy
+;;   :diminish
+;;   :bind (("C-s" . swiper)
+;;          :map ivy-minibuffer-map
+;;          ("C-n" . ivy-next-line)
+;;          ("C-p" . ivy-previous-line)
+;;          :map ivy-switch-buffer-map
+;;          ("C-n" . ivy-next-line)
+;;          ("C-p" . ivy-previous-line)
+;;          ("C-k" . ivy-switch-buffer-kill)
+;;          :map ivy-reverse-i-search-map
+;;          ("C-n" . ivy-next-line)
+;;          ("C-p" . ivy-previous-line)
+;;          ("C-k" . ivy-reverse-i-search-kill))
+;;   :init (ivy-mode 1)
+;;   :custom
+;;   (ivy-use-virtual-buffers t)
+;;   (ivy-wrap t)
+;;   (ivy-count-format "(%d/%d) ")
+;;   (enable-recursive-buffers t)
+;;   :config
+;;   ;; Set minibuffer height for different commands
+;;   (setf (alist-get 'counsel-projectile-ag ivy-height-alist) 15)
+;;   (setf (alist-get 'counsel-projectile-rg ivy-height-alist) 15)
+;;   (setf (alist-get 'swiper ivy-height-alist) 15)
+;;   (setf (alist-get 'counsel-switch-buffer ivy-height-alist) 7))
 
-(use-package ivy-hydra
-  :defer t
-  :after hydra)
+;; (use-package ivy-hydra
+;;   :defer t
+;;   :after hydra)
 
-(use-package ivy-rich
-  :init (ivy-rich-mode 1))
+;; (use-package ivy-rich
+;;   :init (ivy-rich-mode 1))
 
-(use-package smex      ;Adds M-x recent commands sorting for counsel-M-x
-  :defer 1
-  :after counsel)
+;; (use-package smex      ;Adds M-x recent commands sorting for counsel-M-x
+;;   :defer 1
+;;   :after counsel)
 
-(use-package wgrep)
+;; (use-package wgrep)
 
-(use-package ivy-posframe
-  :custom
-  (ivy-posframe-width 115)
-  (ivy-posframe-win-width 115)
-  (ivy-posframe-height 10)
-  (ivy-posframe-min-height 10)
-  :config
-  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
-  ;; (setq ivy-posframe-parameters '((parent-frame . nil)
-  ;;                                 (left-fringe . 8)
-  ;;                                 (right-frindge . 8)))
-  (ivy-posframe-mode 1))
+;; (use-package ivy-posframe
+;;   :custom
+;;   (ivy-posframe-width 115)
+;;   (ivy-posframe-win-width 115)
+;;   (ivy-posframe-height 10)
+;;   (ivy-posframe-min-height 10)
+;;   :config
+;;   (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
+;;   ;; (setq ivy-posframe-parameters '((parent-frame . nil)
+;;   ;;                                 (left-fringe . 8)
+;;   ;;                                 (right-frindge . 8)))
+;;   (ivy-posframe-mode 1))
 
-(sa/leader-key-def
-  "r" '(ivy-resume :which-key "ivy resume")
-  "ff" '(counsel-find-file :which-key "open file")
-  "C-f" 'counsel-find-file
-  "fr" '(counsel-recentf :which-key "recent files")
-  "fR" '(revert-buffer :which-key "revert file")
-  "fj" '(counsel-file-jump :which-key "jump to file"))
+;; (sa/leader-key-def
+;;   "r" '(ivy-resume :which-key "ivy resume")
+;;   "ff" '(counsel-find-file :which-key "open file")
+;;   "C-f" 'counsel-find-file
+;;   "fr" '(counsel-recentf :which-key "recent files")
+;;   "fR" '(revert-buffer :which-key "revert file")
+;;   "fj" '(counsel-file-jump :which-key "jump to file"))
 
-(use-package xwidget
-  :custom
-  (browse-url-browser-function 'xwidget-webkit-browse-url))
+;; (use-package xwidget
+;;   :custom
+;;   (browse-url-browser-function 'xwidget-webkit-browse-url))
 
-(use-package search-web
-  :bind ("C-c w" . 'search-web)
-  :config
-  (defun browse-url-default-browser (url &rest args)
-    "Override `browse-url-default-browser' to use `xwidget-webkit' URL ARGS."
-    (xwidget-webkit-browse-url url args)))
+;; (use-package search-web
+;;   :bind ("C-c w" . 'search-web)
+;;   :config
+;;   (defun browse-url-default-browser (url &rest args)
+;;     "Override `browse-url-default-browser' to use `xwidget-webkit' URL ARGS."
+;;     (xwidget-webkit-browse-url url args)))
 
-(use-package magit
-  :commands (magit-status magit-get-current-branch)
-  :custom
-  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
-  :config (global-set-key (kbd "C-M-;") 'magit-status))
+;; (use-package magit
+;;   :commands (magit-status magit-get-current-branch)
+;;   :custom
+;;   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
+;;   :config (global-set-key (kbd "C-M-;") 'magit-status))
 
-(sa/leader-key-def
-  "g" '(:ignore t :which-key "git")
-  "gs" 'magit-status
-  "gd" 'magit-diff-unstaged
-  "gc" 'magit-branch-or-checkout
-  "gl" '(:ignore t :which-key "log")
-  "glc" 'magit-log-current
-  "glf" 'magit-log-buffer-file
-  "gb" 'magit-branch
-  "gP" 'magit-push-current
-  "gp" 'magit-pull-branch
-  "gf" 'magit-fetch
-  "gF" 'magit-fetch-all
-  "gr" 'magit-rebase)
+;; (sa/leader-key-def
+;;   "g" '(:ignore t :which-key "git")
+;;   "gs" 'magit-status
+;;   "gd" 'magit-diff-unstaged
+;;   "gc" 'magit-branch-or-checkout
+;;   "gl" '(:ignore t :which-key "log")
+;;   "glc" 'magit-log-current
+;;   "glf" 'magit-log-buffer-file
+;;   "gb" 'magit-branch
+;;   "gP" 'magit-push-current
+;;   "gp" 'magit-pull-branch
+;;   "gf" 'magit-fetch
+;;   "gF" 'magit-fetch-all
+;;   "gr" 'magit-rebase)
 
-(use-package forge
-  :after magit)
+;; (use-package forge
+;;   :after magit)
 
-(use-package git-gutter
-  :diminish
-  :hook ((text-mode . git-gutter-mode)
-         (prog-mode . git-gutter-mode))
-  :config
-  (setq git-gutter:update-interval 2
-        git-gutter:modified-sign "≡"
-        git-gutter:added-sign "≡"
-        git-gutter:deleted-sign "≡")
-  (set-face-foreground 'git-gutter:added "LightGreen")
-  (set-face-foreground 'git-gutter:added "LightGoldenrod")
-  (set-face-foreground 'git-gutter:added "LightCoral"))
+;; (use-package git-gutter
+;;   :diminish
+;;   :hook ((text-mode . git-gutter-mode)
+;;          (prog-mode . git-gutter-mode))
+;;   :config
+;;   (setq git-gutter:update-interval 2
+;;         git-gutter:modified-sign "≡"
+;;         git-gutter:added-sign "≡"
+;;         git-gutter:deleted-sign "≡")
+;;   (set-face-foreground 'git-gutter:added "LightGreen")
+;;   (set-face-foreground 'git-gutter:added "LightGoldenrod")
+;;   (set-face-foreground 'git-gutter:added "LightCoral"))
 
-(use-package projectile
-  :ensure-system-package
-  ((rg . ripgrep)
-   (ag . the_silver_searcher))
-  :diminish projectile-mode
-  :config (projectile-mode)
-  :bind-keymap ("C-c p" . projectile-command-map)
-  :init
-  (when (file-directory-p "~/Development")
-    (setq projectile-project-search-path (cddr (directory-files "~/Development" t))))
-  (setq projectile-switch-project-action #'projectile-dired))
+;; (use-package projectile
+;;   :ensure-system-package
+;;   ((rg . ripgrep)
+;;    (ag . the_silver_searcher))
+;;   :diminish projectile-mode
+;;   :config (projectile-mode)
+;;   :bind-keymap ("C-c p" . projectile-command-map)
+;;   :init
+;;   (when (file-directory-p "~/Development")
+;;     (setq projectile-project-search-path (cddr (directory-files "~/Development" t))))
+;;   (setq projectile-switch-project-action #'projectile-dired))
 
-(use-package counsel-projectile
-  :after projectile)
+;; (use-package counsel-projectile
+;;   :after projectile)
 
-(sa/leader-key-def
-  "pf" 'counsel-projectile-find-file
-  "ps" 'counsel-projectile-switch-project
-  "pF" 'counsel-projectile-rg
-  "pp" 'counsel-projectile
-  "pc" 'projectile-compile-project
-  "pd" 'projectile-dired)
+;; (sa/leader-key-def
+;;   "pf" 'counsel-projectile-find-file
+;;   "ps" 'counsel-projectile-switch-project
+;;   "pF" 'counsel-projectile-rg
+;;   "pp" 'counsel-projectile
+;;   "pc" 'projectile-compile-project
+;;   "pd" 'projectile-dired)
 
-(use-package eglot
-  :disabled t)
+;; (use-package eglot
+;;   :disabled t)
 
-(use-package ivy-xref
-  :init (if (< emacs-major-version 27)
-            (setq xref-show-xrefs-function #'ivy-xref-show-xrefs)
-          (setq xref-show-definitions-function #'ivy-xref-show-defs)))
+;; (use-package ivy-xref
+;;   :init (if (< emacs-major-version 27)
+;;             (setq xref-show-xrefs-function #'ivy-xref-show-xrefs)
+;;           (setq xref-show-definitions-function #'ivy-xref-show-defs)))
 
-(defun sa/lsp-mode-setup ()
-                   (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
-                   (lsp-headerline-breadcrumb-mode))
+;; (defun sa/lsp-mode-setup ()
+;;                    (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+;;                    (lsp-headerline-breadcrumb-mode))
 
-(use-package lsp-mode
-  :commands (lsp lsp-deferred)
-  :hook (lsp-mode . sa/lsp-mode-setup)
-  :init
-  (setq lsp-keymap-prefix "C-c l")
-  :config
-  (lsp-enable-which-key-integration))
+;; (use-package lsp-mode
+;;   :commands (lsp lsp-deferred)
+;;   :hook (lsp-mode . sa/lsp-mode-setup)
+;;   :init
+;;   (setq lsp-keymap-prefix "C-c l")
+;;   :config
+;;   (lsp-enable-which-key-integration))
 
-(sa/leader-key-def
-  "l" '(:ignore t :which-key "lsp")
-  "ld" 'xref-find-definitions
-  "lr" 'xref-find-references
-  "ln" 'lsp-ui-find-next-reference
-  "lp" 'lsp-ui-find-pref-reference
-  "ls" 'counsel-imenu
-  "le" 'lsp-ui-flycheck-list
-  "lS" 'lsp-ui-sideline-mode
-  "lX" 'lsp-execute-code-action)
+;; (sa/leader-key-def
+;;   "l" '(:ignore t :which-key "lsp")
+;;   "ld" 'xref-find-definitions
+;;   "lr" 'xref-find-references
+;;   "ln" 'lsp-ui-find-next-reference
+;;   "lp" 'lsp-ui-find-pref-reference
+;;   "ls" 'counsel-imenu
+;;   "le" 'lsp-ui-flycheck-list
+;;   "lS" 'lsp-ui-sideline-mode
+;;   "lX" 'lsp-execute-code-action)
 
-(use-package lsp-ui
-  :hook (lsp-mode . lsp-ui-mode)
-  :config
-  (setq lsp-ui-sideline-enable t
-        lsp-ui-sideline-show-hover nil
-        lsp-ui-doc-position 'bottom)
-  (lsp-ui-doc-show))
+;; (use-package lsp-ui
+;;   :hook (lsp-mode . lsp-ui-mode)
+;;   :config
+;;   (setq lsp-ui-sideline-enable t
+;;         lsp-ui-sideline-show-hover nil
+;;         lsp-ui-doc-position 'bottom)
+;;   (lsp-ui-doc-show))
 
-(use-package nvm
-  :defer t)
+;; (use-package nvm
+;;   :defer t)
 
-(use-package typescript-mode
-  :mode "\\.ts\\'")
+;; (use-package typescript-mode
+;;   :mode "\\.ts\\'")
 
-(use-package js2-mode
-  :mode "\\.jsx?\\'"
-  :config
-  (add-to-list 'magic-mode-alist '("#!/usr/bin/env node" . js2-mode))
+;; (use-package js2-mode
+;;   :mode "\\.jsx?\\'"
+;;   :config
+;;   (add-to-list 'magic-mode-alist '("#!/usr/bin/env node" . js2-mode))
 
-  ;; Don't use built-in syntax checking
-  (setq js2-mode-show-strict-warnings nil))
+;;   ;; Don't use built-in syntax checking
+;;   (setq js2-mode-show-strict-warnings nil))
 
-(use-package prettier-js
-  :disabled t
-  :hook ((js2-mode . prettier-js-mode)
-         (typescript-mode . prettier-js-mode))
-  :config
-  (setq prettier-js-show-errors nil))
+;; (use-package prettier-js
+;;   :disabled t
+;;   :hook ((js2-mode . prettier-js-mode)
+;;          (typescript-mode . prettier-js-mode))
+;;   :config
+;;   (setq prettier-js-show-errors nil))
 
-(use-package jedi
-  :ensure-system-package (jedi . "pipx install jedi-language-server")
-  :hook (python-mode . jedi:setup))
+;; (use-package jedi
+;;   :ensure-system-package (jedi . "pipx install jedi-language-server")
+;;   :hook (python-mode . jedi:setup))
 
-(use-package flycheck
-  :defer t
-  :hook (lsp-mode . flycheck-mode))
+;; (use-package flycheck
+;;   :defer t
+;;   :hook (lsp-mode . flycheck-mode))
 
-(use-package yasnippet
-  :hook (prog-mdoe . yas-minor-mode)
-  :config
-  (yas-reload-all))
+;; (use-package yasnippet
+;;   :hook (prog-mdoe . yas-minor-mode)
+;;   :config
+;;   (yas-reload-all))
 
-(use-package smartparens
-  :hook (prog-mode . smartparens-mode))
+;; (use-package smartparens
+;;   :hook (prog-mode . smartparens-mode))
 
-(use-package smartparens
-  :hook (prog-mode . smartparens-mode))
+;; (use-package smartparens
+;;   :hook (prog-mode . smartparens-mode))
 
-(use-package rainbow-mode
-  :defer t
-  :hook (org-mode
-         emacs-lisp-mode
-         web-mode
-         typescript-mode
-         js2-mode))
+;; (use-package rainbow-mode
+;;   :defer t
+;;   :hook (org-mode
+;;          emacs-lisp-mode
+;;          web-mode
+;;          typescript-mode
+;;          js2-mode))
 
-(use-package slack
-  :disabled t
-  :commands (slack-start)
-  :init
-  (setq slack-buffer-emojify t)  ; Enable emojis
-  (setq slack-prefer-current-team t))
+;; (use-package slack
+;;   :disabled t
+;;   :commands (slack-start)
+;;   :init
+;;   (setq slack-buffer-emojify t)  ; Enable emojis
+;;   (setq slack-prefer-current-team t))
